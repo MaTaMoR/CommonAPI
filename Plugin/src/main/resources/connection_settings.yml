@@ -1,0 +1,9 @@
+Connections:
+  Default:
+    Name: Default
+    Type: SQLITE
+    Ip: localhost
+    Port: 3306
+    Database: database
+    Username: user
+    Password: password

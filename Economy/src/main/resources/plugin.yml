@@ -1,0 +1,4 @@
+name: Economy
+main: me.matamor.commonapi.economy.EconomyModule
+version: 1.0
+author: MaTaMoR_

@@ -1,0 +1,26 @@
+Version: 1.0
+
+Create:
+  Economy: 'CREATE TABLE IF NOT EXISTS economy (id INTEGER, account VARCHAR(32), balance DOUBLE, primary key(id, account));'
+  Notifications: 'CREATE TABLE IF NOT EXISTS notifications (id INTEGER, name VARCHAR(16), date BIGINT, amount DOUBLE, primary key(id, date));'
+Insert:
+  Economy: 'REPLACE INTO economy (id, account, balance) VALUES (?, ?, ?);'
+  Notifications: 'REPLACE INTO notifications (id, name, date, amount) VALUES (?, ?, ?, ?);'
+Select:
+  Economy: 'SELECT account,balance FROM economy WHERE id = ?;'
+  Notifications: 'SELECT name,date,amount FROM notifications WHERE id = ?;'
+Remove:
+  Economy: 'DELETE FROM economy WHERE id = ?;'
+  Notifications: 'DELETE FROM notifications WHERE id = ?;'
+
+RemoveEconomyEntry: 'DELETE FROM economy WHERE id = ? AND account = ?;'
+RemoveNotificationEntry: 'DELETE FROM notifications WHERE id = ? AND date = ?;'
+
+AccountExists: 'SELECT * FROM economy WHERE id = ? AND account = ?;'
+Top: 'SELECT id,balance FROM economy WHERE account = ? ORDER BY balance DESC;'
+CountEntries: 'SELECT COUNT(*) FROM economy WHERE account = ?;'
+
+MySQL:
+  Insert:
+    Economy: 'INSERT INTO economy (id, account, balance) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE balance = VALUES(balance);'
+    Notifications: 'INSERT INTO notifications (id, name, date, amount) VALUES (?, ?, ?, ?);'
