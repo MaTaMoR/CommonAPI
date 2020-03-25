@@ -1,6 +1,6 @@
 package me.matamor.commonapi.economy;
 
-import me.matamor.commonapi.storage.identifier.Identifier;
+import me.matamor.commonapi.storage.identifier.SimpleIdentifier;
 
 import java.util.Map.Entry;
 import java.util.Set;
@@ -9,7 +9,7 @@ public interface EconomyEntry {
 
     EconomyPlugin getPlugin();
 
-    Identifier getIdentifier();
+    SimpleIdentifier getIdentifier();
 
     boolean hasAccount(String account);
 

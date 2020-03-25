@@ -1,6 +1,7 @@
 package me.matamor.commonapi.storage.data;
 import me.matamor.commonapi.storage.StorageException;
 import me.matamor.commonapi.storage.identifier.Identifier;
+import me.matamor.commonapi.storage.identifier.SimpleIdentifier;
 import me.matamor.commonapi.utils.map.Callback;
 
 import java.util.Collection;

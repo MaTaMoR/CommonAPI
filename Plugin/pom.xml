@@ -20,6 +20,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>me.matamor.commonapi</groupId>
+            <artifactId>API</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.spigot</groupId>
             <artifactId>spigot</artifactId>
             <version>1.13.2</version>
@@ -39,7 +44,7 @@
     </dependencies>
 
     <build>
-            <finalName>CommonAPI-${project.version}</finalName>
+        <finalName>CommonAPI-${project.version}</finalName>
         <resources>
             <resource>
                 <filtering>true</filtering>

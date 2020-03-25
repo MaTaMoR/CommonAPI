@@ -3,7 +3,7 @@ package me.matamor.commonapi.commands.cmds.defaults;
 import me.matamor.commonapi.CommonAPI;
 import me.matamor.commonapi.commands.CommandArgs;
 import me.matamor.commonapi.commands.ICommand;
-import me.matamor.commonapi.storage.identifier.Identifier;
+import me.matamor.commonapi.storage.identifier.SimpleIdentifier;
 import org.bukkit.entity.Player;
 
 public class IdentifierCommand extends ICommand<CommonAPI> {
@@ -24,7 +24,7 @@ public class IdentifierCommand extends ICommand<CommonAPI> {
             if (player == null) {
                 commandArgs.sendMessage("&cNo hay ningun jugador conectado con el nombre &4%s", commandArgs.getString(0));
             } else {
-                Identifier identifier = getPlugin().getIdentifierManager().getIdentifier(player.getUniqueId());
+                SimpleIdentifier identifier = getPlugin().getIdentifierManager().getIdentifier(player.getUniqueId());
                 if (identifier == null) {
                     commandArgs.sendMessage("&cLa informacion del jugador no ha sido cargada!");
                 } else {

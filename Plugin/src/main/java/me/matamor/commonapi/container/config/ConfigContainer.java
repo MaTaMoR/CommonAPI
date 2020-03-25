@@ -6,7 +6,6 @@ import me.matamor.commonapi.container.ContainerEntry;
 import me.matamor.commonapi.container.SimpleContainer;
 import me.matamor.commonapi.utils.FileUtils;
 import me.matamor.commonapi.utils.annotation.FilePath;
-import me.matamor.commonapi.utils.serializer.Serializer;
 
 import java.util.Arrays;
 import java.util.Collections;

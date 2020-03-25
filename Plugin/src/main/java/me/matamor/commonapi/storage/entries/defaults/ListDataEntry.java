@@ -1,7 +1,7 @@
 package me.matamor.commonapi.storage.entries.defaults;
 
 import me.matamor.commonapi.storage.entry.EntryDataStorage;
-import me.matamor.commonapi.storage.identifier.Identifier;
+import me.matamor.commonapi.storage.identifier.SimpleIdentifier;
 import me.matamor.commonapi.utils.Name;
 import org.bukkit.plugin.Plugin;
 
@@ -14,7 +14,7 @@ public class ListDataEntry<T extends Name> extends SimpleDataEntry {
 
     private final Map<String, T> entries = new HashMap<>();
 
-    public ListDataEntry(Plugin plugin, Identifier identifier, EntryDataStorage dataStorage) {
+    public ListDataEntry(Plugin plugin, SimpleIdentifier identifier, EntryDataStorage dataStorage) {
         super(plugin, identifier, dataStorage);
     }
 

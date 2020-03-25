@@ -2,7 +2,7 @@ package me.matamor.commonapi.storage.entries;
 
 import me.matamor.commonapi.storage.DataHandler;
 import me.matamor.commonapi.storage.DataProvider;
-import me.matamor.commonapi.storage.identifier.Identifier;
+import me.matamor.commonapi.storage.identifier.SimpleIdentifier;
 import me.matamor.commonapi.utils.map.Callback;
 import org.bukkit.entity.Player;
 
@@ -12,7 +12,7 @@ public interface MultipleDataHandler {
 
     DataHandler getHandler();
 
-    Identifier getIdentifier();
+    SimpleIdentifier getIdentifier();
 
     UUID getUUID();
 

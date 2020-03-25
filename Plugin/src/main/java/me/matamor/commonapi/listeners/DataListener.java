@@ -4,7 +4,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import lombok.Getter;
 import me.matamor.commonapi.CommonAPI;
-import me.matamor.commonapi.storage.identifier.Identifier;
+import me.matamor.commonapi.storage.identifier.SimpleIdentifier;
 import me.matamor.commonapi.utils.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -46,7 +46,7 @@ public class DataListener implements Listener {
                     this.connectedPlayers.put(name, true);
 
                     try {
-                        Identifier identifier = this.plugin.getIdentifierManager().loadOrCreate(event.getUniqueId(), name);
+                        SimpleIdentifier identifier = this.plugin.getIdentifierManager().loadOrCreate(event.getUniqueId(), name);
                         identifier.setName(name);
 
                         this.plugin.getDataManager().load(identifier);

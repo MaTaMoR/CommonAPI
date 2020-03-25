@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.matamor.commonapi.storage.entries.DataEntry;
 import me.matamor.commonapi.storage.entry.EntryDataStorage;
-import me.matamor.commonapi.storage.identifier.Identifier;
+import me.matamor.commonapi.storage.identifier.SimpleIdentifier;
 import me.matamor.commonapi.utils.map.Callback;
 import org.bukkit.plugin.Plugin;
 
@@ -15,7 +15,7 @@ public abstract class SimpleDataEntry implements DataEntry {
     private final Plugin plugin;
 
     @Getter
-    private final Identifier identifier;
+    private final SimpleIdentifier identifier;
 
     @Getter
     private final EntryDataStorage dataStorage;

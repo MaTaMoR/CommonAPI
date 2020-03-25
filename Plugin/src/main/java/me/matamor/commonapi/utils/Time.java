@@ -6,6 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+/*
+    This class is not mine!! I found it on Bukkit, i'm sorry i no longer know who made it! Though i have modified it a bit to fit my needs.
+
+ */
+
 public class Time {
 
     private static final long TICK_MS = 50;
@@ -18,7 +23,7 @@ public class Time {
     private static final Map<String, Long> unitMultipliers = new HashMap<>();
 
     private static void addTimeMultiplier(long multiplier, String... keys) {
-        for(String key : keys) {
+        for (String key : keys) {
             unitMultipliers.put(key, multiplier);
         }
     }
@@ -160,7 +165,7 @@ public class Time {
         long timeInUnits = (time - (time % unitInMS)) / unitInMS;
 
         if (timeInUnits > 0) {
-            builder.append(timeInUnits).append(' ').append((timeInUnits > 1 ? name + "s" : name));
+            builder.append(timeInUnits).append(' ').append((timeInUnits > 1 ? name + "s" : name)).append(' ');
         }
 
         return time - timeInUnits * unitInMS;
@@ -183,7 +188,7 @@ public class Time {
             }
         }
 
-        return timeString.toString();
+        return timeString.toString().trim();
     }
 
     public static class TimeParseException extends RuntimeException {

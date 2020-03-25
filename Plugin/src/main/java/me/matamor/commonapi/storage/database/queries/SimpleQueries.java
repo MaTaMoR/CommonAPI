@@ -4,7 +4,7 @@ import lombok.Getter;
 import me.matamor.commonapi.CommonAPI;
 import me.matamor.commonapi.config.IConfig;
 import me.matamor.commonapi.storage.database.DatabaseException;
-import me.matamor.commonapi.storage.database.DatabaseManager;
+import me.matamor.commonapi.storage.database.SQLDatabaseManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class SimpleQueries implements Queries {
     private final Map<String, String> queries = new LinkedHashMap<>();
 
     @Getter
-    private final DatabaseManager databaseManager;
+    private final SQLDatabaseManager databaseManager;
 
     @Getter
     private final double actualVersion;
@@ -29,7 +29,7 @@ public class SimpleQueries implements Queries {
     @Getter
     private final IConfig config;
 
-    public SimpleQueries(DatabaseManager databaseManager, double actualVersion) {
+    public SimpleQueries(SQLDatabaseManager databaseManager, double actualVersion) {
         this.databaseManager = databaseManager;
         this.actualVersion = actualVersion;
         this.config = new IConfig(CommonAPI.getInstance(), databaseManager.getName(), "Queries");

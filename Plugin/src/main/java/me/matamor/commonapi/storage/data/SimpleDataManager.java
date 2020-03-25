@@ -37,11 +37,11 @@ public class SimpleDataManager implements DataManager {
         if (playerData == null) {
             playerData = new SimplePlayerData(getHandler(), identifier);
 
-            for (DataProvider dataProvider : getHandler().getDataEntries().getEntries()) {
+            for (DataProvider<?> dataProvider : getHandler().getDataEntries().getEntries()) {
                 playerData.registerData(dataProvider);
             }
 
-            for (Map.Entry<Class<?>, InstanceProvider> entry : getHandler().getInstanceProviderManager().getEntries()) {
+            for (Map.Entry<Class<?>, InstanceProvider<?>> entry : getHandler().getInstanceProviderManager().getEntries()) {
                 playerData.registerInstance(entry.getKey(), entry.getValue().newInstance(playerData));
             }
 

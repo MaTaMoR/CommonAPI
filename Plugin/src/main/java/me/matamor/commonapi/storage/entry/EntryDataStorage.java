@@ -1,6 +1,5 @@
 package me.matamor.commonapi.storage.entry;
 
-import me.matamor.commonapi.storage.DataStorage;
 import me.matamor.commonapi.utils.map.Callback;
 
 public interface EntryDataStorage<K, V> extends DataStorage {

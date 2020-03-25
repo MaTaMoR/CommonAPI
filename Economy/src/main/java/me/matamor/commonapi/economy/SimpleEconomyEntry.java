@@ -1,7 +1,7 @@
 package me.matamor.commonapi.economy;
 
 import lombok.Getter;
-import me.matamor.commonapi.storage.identifier.Identifier;
+import me.matamor.commonapi.storage.identifier.SimpleIdentifier;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -20,13 +20,13 @@ public class SimpleEconomyEntry implements EconomyEntry {
     private final EconomyPlugin plugin;
 
     @Getter
-    private final Identifier identifier;
+    private final SimpleIdentifier identifier;
 
-    public SimpleEconomyEntry(EconomyPlugin plugin, Identifier identifier) {
+    public SimpleEconomyEntry(EconomyPlugin plugin, SimpleIdentifier identifier) {
         this(plugin, identifier, null, null);
     }
 
-    public SimpleEconomyEntry(EconomyPlugin plugin, Identifier identifier, Map<String, Double> entriesDefaults, Set<PaymentNotification> notificationsDefaults) {
+    public SimpleEconomyEntry(EconomyPlugin plugin, SimpleIdentifier identifier, Map<String, Double> entriesDefaults, Set<PaymentNotification> notificationsDefaults) {
         this.plugin = plugin;
         this.identifier = identifier;
 

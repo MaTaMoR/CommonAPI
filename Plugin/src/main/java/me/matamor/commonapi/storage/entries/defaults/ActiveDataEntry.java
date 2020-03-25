@@ -3,7 +3,7 @@ package me.matamor.commonapi.storage.entries.defaults;
 import lombok.Getter;
 import me.matamor.commonapi.storage.entries.Active;
 import me.matamor.commonapi.storage.entry.EntryDataStorage;
-import me.matamor.commonapi.storage.identifier.Identifier;
+import me.matamor.commonapi.storage.identifier.SimpleIdentifier;
 import me.matamor.commonapi.utils.Name;
 import org.bukkit.plugin.Plugin;
 
@@ -12,7 +12,7 @@ public class ActiveDataEntry<T extends Name> extends ListDataEntry<T> implements
     @Getter
     private T active;
 
-    public ActiveDataEntry(Plugin plugin, Identifier identifier, EntryDataStorage dataStorage) {
+    public ActiveDataEntry(Plugin plugin, SimpleIdentifier identifier, EntryDataStorage dataStorage) {
         super(plugin, identifier, dataStorage);
     }
 

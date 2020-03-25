@@ -22,9 +22,8 @@ public class DataStorageManager {
         return storageManager;
     }
 
-    public <T extends DataStorage> T getDatabase(Class<T> clazz) {
-        DataStorage database = this.entries.get(clazz);
-        return (database == null ? null : (T) database);
+    public DataStorage getDatabase(Class<? extends DataStorage> clazz) {
+        return this.entries.get(clazz);
     }
 
     public Collection<DataStorage> getEntries() {

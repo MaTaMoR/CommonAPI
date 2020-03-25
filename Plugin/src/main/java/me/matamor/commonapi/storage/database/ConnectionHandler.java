@@ -9,7 +9,7 @@ import me.matamor.commonapi.storage.database.settings.ConnectionSettingsType;
 public class ConnectionHandler {
 
     @Getter
-    private final DatabaseManager databaseManager;
+    private final SQLDatabaseManager databaseManager;
 
     @Getter
     private final ConnectionSettings connectionSettings;
@@ -20,7 +20,7 @@ public class ConnectionHandler {
     @Getter
     private HikariDataSource dataSource;
 
-    public ConnectionHandler(DatabaseManager databaseManager) {
+    public ConnectionHandler(SQLDatabaseManager databaseManager) {
         this.databaseManager = databaseManager;
         this.connectionSettings = CommonAPI.getInstance().getConnectionSettingsManager().getOrCreate(databaseManager.getName());
 

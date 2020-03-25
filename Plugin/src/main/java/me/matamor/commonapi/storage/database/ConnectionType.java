@@ -17,7 +17,7 @@ public enum ConnectionType {
 
     MYSQL("MySQL") {
         @Override
-        public HikariDataSource openConnection(DatabaseManager databaseManager) throws DatabaseException {
+        public HikariDataSource openConnection(SQLDatabaseManager databaseManager) throws DatabaseException {
             ConnectionSettings connectionSettings = databaseManager.getConnectionHandler().getConnectionSettings();
             
             Object ip = connectionSettings.get(ConnectionSettingsType.IP);
@@ -47,7 +47,7 @@ public enum ConnectionType {
     },
     SQLITE("SQLite") {
         @Override
-        public HikariDataSource openConnection(DatabaseManager databaseManager) throws DatabaseException {
+        public HikariDataSource openConnection(SQLDatabaseManager databaseManager) throws DatabaseException {
             ConnectionSettings connectionSettings = databaseManager.getConnectionHandler().getConnectionSettings();
 
             File databasesFolder = new File(CommonAPI.getInstance().getDataFolder(), "Databases");
@@ -77,7 +77,7 @@ public enum ConnectionType {
         }
     };
 
-    public abstract HikariDataSource openConnection(DatabaseManager databaseManager) throws DatabaseException;
+    public abstract HikariDataSource openConnection(SQLDatabaseManager databaseManager) throws DatabaseException;
 
     @Getter
     private final String displayName;

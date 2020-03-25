@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @SuppressWarnings("unchecked")
 public class SimplePlayerData implements PlayerData {
 
-    private final Map<Class<?>, RegisteredData> dataEntries = new ConcurrentHashMap<>();
+    private final Map<Class<?>, RegisteredData<?>> dataEntries = new ConcurrentHashMap<>();
     private final Map<Class<?>, Object> instances = new ConcurrentHashMap<>();
     private final Map<String, Object> storedData = new ConcurrentHashMap<>();
 
@@ -42,14 +42,14 @@ public class SimplePlayerData implements PlayerData {
 
     @Override
     public <T extends DataEntry> T registerData(DataProvider<T> dataProvider) {
-        Validate.isFalse(this.dataEntries.containsKey(dataProvider.getDataClass()), "The DataValue " + dataProvider.getDataClass().getName() + " is already registered");
+        Validate.isFalse(this.dataEntries.containsKey(dataProvider.getDataClass()), "The DataValue '" + dataProvider.getDataClass().getName() + "' is already registered");
 
         T data = dataProvider.getStorage().load(this.identifier);
         if (data == null) {
             data = dataProvider.newInstance(this);
         }
 
-        this.dataEntries.put(dataProvider.getDataClass(), new RegisteredData(this, data, dataProvider));
+        this.dataEntries.put(dataProvider.getDataClass(), new RegisteredData<>(this, data, dataProvider));
 
         return data;
     }
@@ -90,7 +90,7 @@ public class SimplePlayerData implements PlayerData {
 
     @Override
     public <T extends DataEntry> T getData(Class<T> clazz) {
-        RegisteredData data = this.dataEntries.get(clazz);
+        RegisteredData<?> data = this.dataEntries.get(clazz);
         if (data == null) {
             return null;
         } else if (clazz.isAssignableFrom(data.getDataEntry().getClass())) {
@@ -130,13 +130,13 @@ public class SimplePlayerData implements PlayerData {
     }
 
     @Override
-    public RegisteredData getRegisteredData(Class<?> clazz) {
+    public RegisteredData<?> getRegisteredData(Class<?> clazz) {
         return this.dataEntries.get(clazz);
     }
 
     @Override
     public void unregister(Class<?> clazz) {
-        RegisteredData registeredData = this.dataEntries.get(clazz);
+        RegisteredData<?> registeredData = this.dataEntries.get(clazz);
         if (registeredData == null) return;
 
         registeredData.save();
@@ -161,7 +161,7 @@ public class SimplePlayerData implements PlayerData {
 
     @Override
     public void purgeData(Class<?> clazz) {
-        RegisteredData dataEntry = this.dataEntries.get(clazz);
+        RegisteredData<?> dataEntry = this.dataEntries.get(clazz);
         if (dataEntry == null) return;
 
         this.dataEntries.remove(clazz);
@@ -175,7 +175,7 @@ public class SimplePlayerData implements PlayerData {
 
     @Override
     public void saveData() throws StorageException {
-        for (RegisteredData registeredData : this.dataEntries.values()) {
+        for (RegisteredData<?> registeredData : this.dataEntries.values()) {
             registeredData.save();
         }
     }

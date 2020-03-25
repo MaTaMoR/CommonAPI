@@ -3,7 +3,7 @@ package me.matamor.commonapi.storage.database.queries.builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.matamor.commonapi.storage.database.DatabaseException;
-import me.matamor.commonapi.storage.database.DatabaseManager;
+import me.matamor.commonapi.storage.database.SQLDatabaseManager;
 import me.matamor.commonapi.utils.Validate;
 
 import java.sql.Connection;
@@ -17,7 +17,7 @@ import java.util.Map;
 public class SimpleQueryBuilder implements QueryBuilder {
 
     @Getter
-    private final DatabaseManager databaseManager;
+    private final SQLDatabaseManager databaseManager;
 
     private String table;
 

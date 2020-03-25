@@ -4,11 +4,11 @@ import lombok.Getter;
 import me.matamor.commonapi.CommonAPI;
 import me.matamor.commonapi.economy.commands.*;
 import me.matamor.commonapi.economy.config.EconomyConfig;
-import me.matamor.commonapi.economy.database.EconomyDatabase;
+import me.matamor.commonapi.economy.database.EconomySQLDatabase;
 import me.matamor.commonapi.economy.listener.EconomyListener;
 import me.matamor.commonapi.economy.vault.VaultRegister;
 import me.matamor.commonapi.modules.Module;
-import me.matamor.commonapi.storage.identifier.Identifier;
+import me.matamor.commonapi.storage.identifier.SimpleIdentifier;
 import me.matamor.commonapi.storage.identifier.listener.IdentifierListener;
 
 import java.text.DecimalFormat;
@@ -22,7 +22,8 @@ public class EconomyModule extends Module implements EconomyPlugin {
     @Getter
     private EconomyConfig pluginConfig;
 
-    @Getter EconomyDatabase database;
+    @Getter
+    EconomySQLDatabase database;
 
     @Getter
     private Economy economy;
@@ -37,7 +38,7 @@ public class EconomyModule extends Module implements EconomyPlugin {
         this.pluginConfig = new EconomyConfig(this);
         this.pluginConfig.load();
 
-        this.database = new EconomyDatabase(this);
+        this.database = new EconomySQLDatabase(this);
         if (!this.database.loadDatabase()) {
             getLogger().log(Level.SEVERE, "Couldn't loadOrCreate economy database! Disabling plugin...");
             getServer().getPluginManager().disablePlugin(this);
@@ -53,12 +54,12 @@ public class EconomyModule extends Module implements EconomyPlugin {
         //Load EconomyEntry when the Identifier is loaded!
         CommonAPI.getInstance().getIdentifierManager().registerListener(getName(), new IdentifierListener() {
             @Override
-            public void onLoad(Identifier identifier) {
+            public void onLoad(SimpleIdentifier identifier) {
                 getEconomy().load(identifier);
             }
 
             @Override
-            public void onUnload(Identifier identifier) {
+            public void onUnload(SimpleIdentifier identifier) {
                 getEconomy().unload(identifier.getUUID());
             }
         });

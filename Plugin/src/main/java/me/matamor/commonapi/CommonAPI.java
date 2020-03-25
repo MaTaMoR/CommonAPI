@@ -1,5 +1,6 @@
 package me.matamor.commonapi;
 
+import com.google.common.base.Charsets;
 import lombok.Getter;
 import me.matamor.commonapi.commands.cmds.defaults.MainCommand;
 import me.matamor.commonapi.custominventories.events.InventoryEvents;
@@ -12,20 +13,27 @@ import me.matamor.commonapi.modules.ModuleLoader;
 import me.matamor.commonapi.modules.ModuleManager;
 import me.matamor.commonapi.storage.DataHandler;
 import me.matamor.commonapi.storage.InstanceProviderManager;
+import me.matamor.commonapi.storage.SimpleInstanceProviderManager;
 import me.matamor.commonapi.storage.data.DataManager;
 import me.matamor.commonapi.storage.data.SimpleDataManager;
 import me.matamor.commonapi.storage.database.settings.ConnectionSettingsManager;
 import me.matamor.commonapi.storage.entries.DataEntries;
 import me.matamor.commonapi.storage.entries.DataStorageManager;
 import me.matamor.commonapi.storage.identifier.IdentifierManager;
-import me.matamor.commonapi.storage.identifier.IdentifierSingleDatabaseManager;
+import me.matamor.commonapi.storage.identifier.IdentifierDatabase;
+import me.matamor.commonapi.storage.identifier.SimpleIdentifierDatabase;
 import me.matamor.commonapi.storage.identifier.SimpleIdentifierManager;
+import me.matamor.commonapi.utils.ULocation;
 import me.matamor.commonapi.utils.serializer.SerializationManager;
 import me.matamor.commonapi.utils.serializer.TimeSerializer;
+import me.matamor.commonapi.utils.serializer.ULocationSerializer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -41,9 +49,6 @@ public class CommonAPI extends JavaPlugin implements DataHandler, ModuleManager 
     private static CommonAPI instance;
 
     @Getter
-    private SerializationManager serializationManager;
-
-    @Getter
     private ConnectionSettingsManager connectionSettingsManager;
 
     @Getter
@@ -56,7 +61,7 @@ public class CommonAPI extends JavaPlugin implements DataHandler, ModuleManager 
     private DataStorageManager storageManager;
 
     @Getter
-    private IdentifierSingleDatabaseManager identifierDatabase;
+    private IdentifierDatabase identifierDatabase;
 
     @Getter
     private IdentifierManager identifierManager;
@@ -78,8 +83,6 @@ public class CommonAPI extends JavaPlugin implements DataHandler, ModuleManager 
     @Override
     public void onEnable() {
         instance = this;
-
-        this.serializationManager = new SerializationManager();
 
         registerSerializers();
 
@@ -150,13 +153,13 @@ public class CommonAPI extends JavaPlugin implements DataHandler, ModuleManager 
         this.connectionSettingsManager.load();
 
         //Create data storage
-        this.instanceProviderManager = new InstanceProviderManager(this);
+        this.instanceProviderManager = new SimpleInstanceProviderManager(this);
 
         this.dataEntries = new DataEntries(this);
         this.storageManager = new DataStorageManager();
 
         //Register storage
-        this.identifierDatabase = new IdentifierSingleDatabaseManager(this, true);
+        this.identifierDatabase = new SimpleIdentifierDatabase(this, true);
         this.storageManager.registerStorage(this.identifierDatabase);
 
         //Load all the Identifiers from online players!
@@ -168,7 +171,9 @@ public class CommonAPI extends JavaPlugin implements DataHandler, ModuleManager 
     }
 
     private void registerSerializers() {
-        this.serializationManager.register(new TimeSerializer());
+        SerializationManager.getInstance().register(Long.class, new TimeSerializer());
+        SerializationManager.getInstance().register(long.class, new TimeSerializer());
+        SerializationManager.getInstance().register(ULocation.class, new ULocationSerializer());
     }
 
     private void initializeInventoryAPI() {
@@ -225,4 +230,63 @@ public class CommonAPI extends JavaPlugin implements DataHandler, ModuleManager 
         return this.modules;
     }
 
+
+    public class PlayerChangeNamePacket {
+
+        private String player;
+
+        private String name;
+
+        public PlayerChangeNamePacket() {
+
+        }
+
+        public PlayerChangeNamePacket(String player, String name) {
+            this.player = player;
+            this.name = name;
+        }
+
+        public void serialize(ByteArrayOutputStream byteArray) throws IOException {
+            //Escribimos los bytes del nombre del jugador
+
+            byte[] playerArray = this.player.getBytes(Charsets.UTF_8);
+
+            byteArray.write(playerArray.length); //Hace falta escribir el tamaño del texto para luego saber cuanto leer
+            byteArray.write(playerArray);
+
+            byte[] nameArray = this.player.getBytes(Charsets.UTF_8);
+
+            //Escribimos los bytes del nuevo nombre del jugador
+            byteArray.write(nameArray.length);
+            byteArray.write(nameArray);
+        }
+
+        public void deserialize(ByteArrayInputStream byteArray) throws IOException {
+            //Leemos primero el tamaño del texto que esperamos para asi luego cargarlo bien
+            int playerLength = byteArray.read();
+
+            byte[] playerArray = new byte[playerLength];
+            byteArray.read(playerArray, 0, playerLength);
+
+            this.player = new String(playerArray, Charsets.UTF_8);
+
+            int nameLength = byteArray.read();
+
+            byte[] nameArray = new byte[nameLength];
+            byteArray.readNBytes(nameArray, 0, nameLength);
+
+            this.name = new String(nameArray, Charsets.UTF_8);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+    
 }

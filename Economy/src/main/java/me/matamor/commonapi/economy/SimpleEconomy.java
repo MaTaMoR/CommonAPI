@@ -3,7 +3,7 @@ package me.matamor.commonapi.economy;
 import lombok.Getter;
 import me.matamor.commonapi.CommonAPI;
 import me.matamor.commonapi.custominventories.utils.BasicTaskHandler;
-import me.matamor.commonapi.storage.identifier.Identifier;
+import me.matamor.commonapi.storage.identifier.SimpleIdentifier;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -45,12 +45,12 @@ public class SimpleEconomy implements Economy {
     }
 
     @Override
-    public EconomyEntry load(Identifier identifier) {
+    public EconomyEntry load(SimpleIdentifier identifier) {
         return load(identifier, true);
     }
 
     @Override
-    public EconomyEntry load(Identifier identifier, boolean cache) {
+    public EconomyEntry load(SimpleIdentifier identifier, boolean cache) {
         EconomyEntry economyEntry = this.entries.get(identifier.getUUID());
 
         if (economyEntry == null) {
@@ -71,7 +71,7 @@ public class SimpleEconomy implements Economy {
     @Override
     public void loadAll() {
         for (Player player : CommonAPI.getInstance().getServer().getOnlinePlayers()) {
-            Identifier identifier = CommonAPI.getInstance().getIdentifierManager().getIdentifier(player.getUniqueId());
+            SimpleIdentifier identifier = CommonAPI.getInstance().getIdentifierManager().getIdentifier(player.getUniqueId());
 
             //Load every online player
             load(identifier);

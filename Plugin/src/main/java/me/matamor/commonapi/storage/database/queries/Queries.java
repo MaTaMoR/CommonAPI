@@ -1,11 +1,11 @@
 package me.matamor.commonapi.storage.database.queries;
 
-import me.matamor.commonapi.storage.database.DatabaseManager;
+import me.matamor.commonapi.storage.database.SQLDatabaseManager;
 import me.matamor.commonapi.utils.BasicLoadable;
 
 public interface Queries extends BasicLoadable {
 
-    DatabaseManager getDatabaseManager();
+    SQLDatabaseManager getDatabaseManager();
 
     void checkFile();
 

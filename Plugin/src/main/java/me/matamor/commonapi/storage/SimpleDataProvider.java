@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.matamor.commonapi.storage.entries.DataEntry;
 import me.matamor.commonapi.storage.entry.EntryDataStorage;
-import me.matamor.commonapi.storage.identifier.Identifier;
+import me.matamor.commonapi.storage.identifier.SimpleIdentifier;
 
 @AllArgsConstructor
 public abstract class SimpleDataProvider<T extends DataEntry> implements DataProvider<T> {
@@ -13,6 +13,6 @@ public abstract class SimpleDataProvider<T extends DataEntry> implements DataPro
     private final Class<T> dataClass;
 
     @Getter
-    private final EntryDataStorage<Identifier, T> storage;
+    private final EntryDataStorage<SimpleIdentifier, T> storage;
 
 }

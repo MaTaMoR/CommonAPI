@@ -1,7 +1,6 @@
 package me.matamor.commonapi.container;
 
 import me.matamor.commonapi.config.IConfig;
-import me.matamor.commonapi.utils.serializer.Serializer;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Collection;

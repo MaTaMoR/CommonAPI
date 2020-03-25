@@ -22,12 +22,12 @@ public class SimpleIdentifierManager implements IdentifierManager {
     private final Map<String, IdentifierListener> listeners = new ConcurrentHashMap<>();
 
     @Getter
-    private final IdentifierSingleDatabaseManager database;
+    private final IdentifierDatabase database;
 
     @Getter
     private final BasicTaskHandler taskHandler;
 
-    public SimpleIdentifierManager(IdentifierSingleDatabaseManager database) {
+    public SimpleIdentifierManager(IdentifierDatabase database) {
         this.database = database;
 
         //30 minutes

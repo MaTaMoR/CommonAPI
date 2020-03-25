@@ -14,23 +14,23 @@ import java.util.Map;
 @AllArgsConstructor
 public class DataEntries {
 
-    private final Map<Class<? extends DataEntry>, DataProvider> providers = new LinkedHashMap<>();
+    private final Map<Class<? extends DataEntry>, DataProvider<?>> providers = new LinkedHashMap<>();
 
     @Getter
     private final DataHandler plugin;
 
-    public final void registerEntries(DataProvider... entries) {
+    public final void registerEntries(DataProvider<?>... entries) {
         registerEntries(false, entries);
     }
 
-    public final void registerEntries(boolean register, DataProvider... entries) {
-        for (DataProvider dataProvider : entries) {
+    public final void registerEntries(boolean register, DataProvider<?>... entries) {
+        for (DataProvider<?> dataProvider : entries) {
             this.providers.put(dataProvider.getDataClass(), dataProvider);
         }
 
         if (register) {
             for (PlayerData playerData : this.plugin.getDataManager().getEntries()) {
-                for (DataProvider dataProvider : entries) {
+                for (DataProvider<?> dataProvider : entries) {
                     if (!playerData.hasData(dataProvider.getDataClass())) {
                         playerData.registerData(dataProvider);
                     }
@@ -39,18 +39,18 @@ public class DataEntries {
         }
     }
 
-    public final void unregisterEntries(DataProvider... entries) {
+    public final void unregisterEntries(DataProvider<?>... entries) {
         unregisterEntries(false, entries);
     }
 
     public final void unregisterEntries(boolean unregister, DataProvider... entries) {
-        for (DataProvider dataProvider : entries) {
+        for (DataProvider<?> dataProvider : entries) {
             this.providers.remove(dataProvider.getDataClass());
         }
 
         if (unregister) {
             for (PlayerData playerData : this.plugin.getDataManager().getEntries()) {
-                for (DataProvider dataProvider : entries) {
+                for (DataProvider<?> dataProvider : entries) {
                     if (playerData.hasData(dataProvider.getDataClass())) {
                         playerData.unregister(dataProvider.getDataClass());
                     }
@@ -59,7 +59,7 @@ public class DataEntries {
         }
     }
 
-    public Collection<DataProvider> getEntries() {
+    public Collection<DataProvider<?>> getEntries() {
         return Collections.unmodifiableCollection(this.providers.values());
     }
 }

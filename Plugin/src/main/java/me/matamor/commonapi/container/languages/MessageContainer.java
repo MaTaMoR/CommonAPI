@@ -4,7 +4,6 @@ import me.matamor.commonapi.container.ContainerEntry;
 import me.matamor.commonapi.container.config.ConfigContainer;
 import me.matamor.commonapi.utils.CastUtils;
 import me.matamor.commonapi.utils.serializer.SerializationException;
-import me.matamor.commonapi.utils.serializer.Serializer;
 
 public class MessageContainer extends ConfigContainer<String> {
 
