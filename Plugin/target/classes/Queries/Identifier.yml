@@ -1,0 +1,15 @@
+Version: 1.0
+
+Create: 'CREATE TABLE IF NOT EXISTS identifiers (id INTEGER PRIMARY KEY AUTOINCREMENT, uuid CHAR(36) NOT NULL, name VARCHAR(16) NOT NULL);'
+Insert: 'REPLACE INTO identifiers (uuid, name) VALUES (?, ?);'
+Select: 'SELECT * FROM identifiers WHERE uuid = ?;'
+Delete: 'DELETE FROM identifiers WHERE uuid = ?;'
+
+SelectByName: 'SELECT * FROM identifiers WHERE name = ?;'
+SelectById: 'SELECT * FROM identifiers WHERE id = ?;'
+
+UpdateName: 'UPDATE identifiers SET name = ? WHERE id = ?;'
+
+MySQL:
+  Create: 'CREATE TABLE IF NOT EXISTS identifiers (id INTEGER PRIMARY KEY AUTO_INCREMENT, uuid CHAR(36) NOT NULL, name VARCHAR(16) NOT NULL);'
+  Insert: 'INSERT INTO identifiers (uuid, name) VALUES (?, ?) ON DUPLICATE KEY UPDATE uuid = VALUES(uuid), name = VALUES(name);'

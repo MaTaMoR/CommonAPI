@@ -1,0 +1,7 @@
+name: CommonAPI
+main: me.matamor.commonapi.CommonAPI
+version: 1.0
+api-version: 1.13
+load: STARTUP
+softdepend:
+- Vault
