@@ -35,12 +35,12 @@ public class BalanceTopCommand extends ICommand<EconomyModule> {
     @Override
     public void onCommand(CommandArgs commandArgs) throws ICommandException {
         if (commandArgs.length == 1 && commandArgs.getString(0).equalsIgnoreCase("force")) {
-            ifFalse(Permissions.BALANCE_COMMAND_TOP_FORCE.hasPermission(commandArgs.getSender()), "&cNo tienes permisos para actualizar el top!");
-            ifTrue(this.balanceTop.getUpdating().get(), "&cEl top ya se esta actualizando!");
+            ifFalse(Permissions.BALANCE_COMMAND_TOP_FORCE.hasPermission(commandArgs.getSender()), "&cYou don't have permissions to update the top!");
+            ifTrue(this.balanceTop.getUpdating().get(), "&cTop is currently being updated!");
 
             this.balanceTop.update(commandArgs);
         } else {
-            ifTrue(this.balanceTop.getUpdating().get(), "&cEl top se esta actualizando!");
+            ifTrue(this.balanceTop.getUpdating().get(), "&cTop is currently being updated!");
 
             if (this.balanceTop.expired()) {
                 this.balanceTop.update(commandArgs);
@@ -51,11 +51,11 @@ public class BalanceTopCommand extends ICommand<EconomyModule> {
                     try {
                         page = commandArgs.getInt(0);
                     } catch (CastUtils.FormatException e) {
-                        throw new ICommandException("&cPagina invalida: &4" + commandArgs.getString(0));
+                        throw new ICommandException("&cInvalid page: &4" + commandArgs.getString(0));
                     }
                 }
 
-                ifTrue(1 > page, "&cPagina invalida: &4" + page);
+                ifTrue(1 > page, "&cInvalid page: &4" + page);
 
                 this.balanceTop.sendTop(page - 1, commandArgs);
             }
@@ -106,7 +106,7 @@ public class BalanceTopCommand extends ICommand<EconomyModule> {
 
             int totalEntries = this.plugin.getDatabase().countEntries();
 
-            commandArgs.sendMessage("&eCreando top de economia de &6" + totalEntries + "&e usuarios...");
+            commandArgs.sendMessage("&eCreating economy top for &6" + totalEntries + "&e players...");
 
             //Set top update date
             this.lastUpdate.set(System.currentTimeMillis());
@@ -119,7 +119,7 @@ public class BalanceTopCommand extends ICommand<EconomyModule> {
                     //Send top to commandSender if online
                     sendTop(0, commandArgs);
                 } else {
-                    getPlugin().getLogger().log(Level.INFO, "No se pudo actualizar el top de economia!", exception);
+                    getPlugin().getLogger().log(Level.INFO, "Couldn't update economy top!", exception);
                 }
             });
         }

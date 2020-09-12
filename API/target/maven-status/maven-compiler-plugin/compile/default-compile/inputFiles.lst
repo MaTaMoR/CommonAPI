@@ -1,64 +1,163 @@
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\identifier\IdentifierDatabase.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\DataHandler.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\events\ModuleDisableEvent.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\entries\RegisteredData.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\config\special\Entry.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\entries\DataEntry.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\map\Callback.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\database\DatabaseException.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\Interval.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\identifier\listener\IdentifierListener.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\entries\MultipleDataHandler.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\StorageException.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\identifier\Identifier.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\config\special\CommentedConfig.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\config\special\ConfigurationException.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\database\defaults\single\SingleDatabaseManager.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\InstanceProviderManager.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\DataStorage.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\modules\ModuleClassLoader.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\database\defaults\multi\MultiDatabaseManager.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\DataProvider.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\InstantUtils.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\database\ConnectionDatabaseManager.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\entries\DataEntries.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\Reflections.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\identifier\IdentifierManager.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\serializer\Serializer.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\Name.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\InstanceProvider.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\serializer\SerializationManager.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\entries\DataStorageManager.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\PrimitiveUtils.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\serializer\SerializationException.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\modules\ModuleDescription.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\data\PlayerData.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\annotation\PluginClass.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\database\EntryConnectionDatabaseManager.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\modules\ModuleLogger.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\modules\exception\ModuleException.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\Validate.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\database\DatabaseEntry.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\LimitedDurationMap.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\annotation\FilePath.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\config\special\Comment.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\config\special\ConfigEntry.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\ReflectionUtil.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\events\ModuleEnableEvent.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\modules\Module.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\map\ExpirationListener.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\Time.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\modules\ModuleLoader.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\entries\Active.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\FastOfflinePlayer.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\ULocation.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\modules\ModuleManager.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\CastUtils.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\StringUtils.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\data\DataManager.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\config\IConfig.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\NMSClassLoader.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\BasicLoadable.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\storage\entry\EntryDataStorage.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\ConfigUtils.java
-C:\Users\Santiago\Desktop\Projectos\CommonAPI\API\src\main\java\me\matamor\commonapi\utils\FileUtils.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\BukkitTaskHandler.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\hologram\lines\updating\Animation.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\config\IConfig.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\config\special\ConfigEntry.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\hologram\nms\NMSMountable.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\InstanceProvider.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\container\DataContainer.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\Validate.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\modules\Module.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\scoreboard\nms\NMSObjective.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\scoreboard\ScoreboardController.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\database\defaults\single\SingleDatabaseManager.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\Name.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\replacement\PlayerTextVariable.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\modules\exception\InvalidModuleException.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\entries\MultipleDataHandler.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\inventory\icons\InventoryIcon.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\InstanceProviderManager.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\hologram\lines\updating\TextAnimation.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\map\Callback.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\nbt\NBTTagException.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\nms\VersionUtils.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\Pair.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\inventory\amount\Amount.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\entries\RegisteredData.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\hologram\HologramEntityController.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\scoreboard\board\BoardManager.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\entries\Active.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\scoreboard\board\Board.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\commands\cmds\HelpCommand.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\scoreboard\ScoreboardManager.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\inventory\inventories\CustomInventory.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\inventory\inventories\CustomUpdatingInventory.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\hologram\nms\NMSItem.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\scoreboard\nms\NMSScoreboard.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\replacement\TextVariable.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\entry\EntryDataStorage.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\scoreboard\board\lines\TextBoardLine.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\container\ContainerEntry.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\nbt\defaults\NBTTagByteArray.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\nbt\defaults\NBTTagDouble.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\Interval.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\container\Container.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\inventory\actions\ClickAction.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\commands\CommandArgs.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\inventory\enums\ClickType.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\modules\ModuleLogger.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\nbt\NBTTag.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\requirements\SimpleRequirement.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\events\ModuleDisableEvent.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\scoreboard\board\UpdatingBoard.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\identifier\IdentifierDatabase.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\CastUtils.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\nms\NMSController.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\Players.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\container\SimpleContainer.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\hologram\lines\updating\AbstractAnimation.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\Time.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\events\ModuleEnableEvent.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\data\PlayerData.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\serializer\SerializationException.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\requirements\PermissionRequirement.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\DataProvider.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\potion\PotionUtils.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\ReflectionUtil.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\modules\ModuleManager.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\hologram\nms\NMSEntityBase.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\hologram\nms\NMSNameable.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\messages\Messages.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\hologram\lines\ItemLine.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\nbt\defaults\NBTTagString.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\skull\SkullData.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\data\DataManager.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\InstantUtils.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\StorageException.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\config\special\Entry.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\permissions\IPermission.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\scoreboard\board\BoardTemplate.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\nbt\defaults\NBTTagIntArray.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\scoreboard\nms\NMSTeam.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\enchantment\MinecraftEnchantments.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\requirements\Requirement.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\hologram\HologramManager.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\particles\ParticleEffect.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\map\LimitedDurationMap.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\identifier\Identifier.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\reflections\PlayerReflections.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\container\languages\MessageContainer.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\database\ConnectionDatabaseManager.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\StringUtils.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\modules\java\SimpleModuleManager.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\entries\DataStorageManager.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\replacement\SimplePlayerTextVariable.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\database\defaults\multi\MultiDatabaseManager.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\hologram\lines\HologramLine.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\entries\DataEntries.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\LimitedDurationMap.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\nbt\defaults\NBTTagLong.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\hologram\lines\TextLine.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\nbt\defaults\NBTTagByte.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\scoreboard\nms\NMSScore.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\ConfigUtils.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\commands\ICommand.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\annotation\FilePath.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\hologram\lines\updating\ItemAnimation.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\inventory\actions\ActionHandler.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\nbt\defaults\NBTTagShort.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\inventory\InventoryController.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\modules\java\ModuleClassLoader.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\ItemUtils.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\container\SimpleDataContainer.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\BasicLoadable.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\ULocation.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\container\config\ConfigContainer.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\hologram\nms\NMSArmorStand.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\nms\Offsets.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\hologram\Hologram.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\scoreboard\board\lines\IntervalBoardLine.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\FileUtils.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\modules\java\JavaModuleLoader.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\permissions\Permissions.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\hologram\lines\updating\UpdatingHologramLine.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\scoreboard\board\lines\ScrollBoardLine.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\scoreboard\board\BoardLine.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\DataEntryContainer.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\nbt\BaseNBTTag.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\CommonAPIPlugin.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\config\special\ConfigurationException.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\annotation\PluginClass.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\config\special\CommentedConfig.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\database\DatabaseEntry.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\skull\SkullReflection.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\database\EntryConnectionDatabaseManager.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\PrimitiveUtils.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\replacement\PlayerVariables.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\modules\ModuleLoader.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\scoreboard\nms\NMSViewable.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\nbt\defaults\NBTTagList.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\identifier\listener\IdentifierListener.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\identifier\IdentifierManager.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\nbt\NBTUtils.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\serializer\SerializationManager.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\nms\NMSVersion.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\inventory\InventorySize.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\serializer\Serializer.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\NMSClassLoader.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\commands\ICommandException.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\inventory\item\CustomItem.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\map\ExpirationListener.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\DataStorage.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\particles\ParticleController.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\FastOfflinePlayer.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\DataHandler.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\nbt\defaults\NBTTagInt.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\SimpleMath.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\modules\java\JavaModule.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\scoreboard\board\lines\AnimationBoardLine.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\Reflections.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\Pagination.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\config\special\Comment.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\utils\enchantment\RomanNumeral.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\permissions\IPermissionManager.java
+C:\Users\Santiago\Desktop\Projectos\CommonAPI 2\API\src\main\java\me\matamor\commonapi\storage\entries\DataEntry.java

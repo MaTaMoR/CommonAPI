@@ -2,9 +2,10 @@ package me.matamor.commonapi.storage.identifier;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import me.matamor.commonapi.custominventories.utils.BasicTaskHandler;
 import me.matamor.commonapi.storage.StorageException;
+import me.matamor.commonapi.storage.database.DatabaseException;
 import me.matamor.commonapi.storage.identifier.listener.IdentifierListener;
+import me.matamor.commonapi.utils.BukkitTaskHandler;
 import me.matamor.commonapi.utils.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -25,7 +26,7 @@ public class SimpleIdentifierManager implements IdentifierManager {
     private final IdentifierDatabase database;
 
     @Getter
-    private final BasicTaskHandler taskHandler;
+    private final BukkitTaskHandler taskHandler;
 
     public SimpleIdentifierManager(IdentifierDatabase database) {
         this.database = database;
@@ -33,7 +34,7 @@ public class SimpleIdentifierManager implements IdentifierManager {
         //30 minutes
         int delay = 20 * 60 * 30;
 
-        this.taskHandler = new BasicTaskHandler() {
+        this.taskHandler = new BukkitTaskHandler() {
             @Override
             public BukkitTask createTask() {
                 return new BukkitRunnable() {
@@ -49,12 +50,16 @@ public class SimpleIdentifierManager implements IdentifierManager {
     }
 
     @Override
-    public Identifier load(int id) {
+    public Identifier load(int id) throws StorageException {
         Identifier identifier = getIdentifier(id);
 
         if (identifier == null) {
             //Load from database
-            identifier = this.database.loadById(id);
+            try {
+                identifier = this.database.loadById(id);
+            } catch (SQLException e) {
+                throw new DatabaseException("Couldn't load Identifier!", e);
+            }
 
             if (identifier != null) {
                 this.entries.put(identifier.getUUID(), identifier);
@@ -73,7 +78,11 @@ public class SimpleIdentifierManager implements IdentifierManager {
 
         if (identifier == null) {
             //Load from database
-            identifier = this.database.loadByName(name);
+            try {
+                identifier = this.database.loadByName(name);
+            } catch (SQLException e) {
+                throw new DatabaseException("Couldn't load Identifier!", e);
+            }
 
             if (identifier != null) {
                 this.entries.put(identifier.getUUID(), identifier);
@@ -87,7 +96,7 @@ public class SimpleIdentifierManager implements IdentifierManager {
     }
 
     @Override
-    public Identifier load(UUID uuid) {
+    public Identifier load(UUID uuid) throws StorageException {
         Identifier identifier = getIdentifier(uuid);
 
         if (identifier == null) {
@@ -106,7 +115,7 @@ public class SimpleIdentifierManager implements IdentifierManager {
     }
 
     @Override
-    public Identifier loadOrCreate(UUID uuid, String name) {
+    public Identifier loadOrCreate(UUID uuid, String name) throws StorageException {
         Identifier identifier = this.entries.get(uuid);
 
         if (identifier == null) {

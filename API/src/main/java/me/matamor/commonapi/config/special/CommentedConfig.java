@@ -56,16 +56,25 @@ public class CommentedConfig {
         return entries;
     }
 
-    public synchronized void load() throws ConfigurationException {
+    public void load() throws ConfigurationException {
         try {
             File file = getFile();
 
             if (file.exists()) {
-                IConfig config = new IConfig(getPlugin(), file);
+                IConfig config;
+
+                try {
+                    config = new IConfig(getPlugin(), file);
+                } catch (Exception e) {
+                    log(Level.SEVERE, "Couldn't load the config file!", e);
+                    storeCurrentConfig();
+                    return;
+                }
+
                 int anyError = 0;
 
                 for (ConfigEntry configEntry : this.entries) {
-                    Serializer serializer = configEntry.getSerializer();
+                    Serializer<?> serializer = configEntry.getSerializer();
                     Object object = config.get(configEntry.getPath());
 
                     if (serializer != null && object != null){
@@ -95,19 +104,7 @@ public class CommentedConfig {
                 }
 
                 if (anyError > 0) {
-                    log(Level.SEVERE, "There was an error while loading config, generating a valid one...");
-
-                    File newFile = FileUtils.getAvailableFile(this.plugin.getDataFolder(), "old_config", ".yml");
-
-                    try {
-                        FileUtils.copy(this.file, newFile);
-                    } catch (IOException e) {
-                        getPlugin().getLogger().log(Level.SEVERE, "Couldn't save old config!", e);
-                    }
-
-                    save();
-
-                    log(Level.INFO, "Fixed config generated, old config has been saved to the file: " + newFile.getName());
+                    storeCurrentConfig();
                 }
             } else {
                 save();
@@ -117,12 +114,14 @@ public class CommentedConfig {
         }
     }
 
-    public synchronized void save() throws ConfigurationException {
+    public void save() throws ConfigurationException {
         try {
             File file = getFile();
 
             Files.createParentDirs(file);
-            if (!file.exists()) file.createNewFile();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
 
             IConfig config = new IConfig(getPlugin(), file);
             for (ConfigEntry configEntry : this.entries) {
@@ -299,6 +298,22 @@ public class CommentedConfig {
     }
 
     private void log(Level level, String message, Object... values) {
-        plugin.getLogger().log(level, String.format(message, values));
+        this.plugin.getLogger().log(level, String.format(message, values));
+    }
+
+    private void storeCurrentConfig() {
+        log(Level.SEVERE, "There was an error while loading config, generating a valid one...");
+
+        File newFile = FileUtils.getAvailableFile(this.plugin.getDataFolder(), "old_config", ".yml");
+
+        try {
+            FileUtils.copy(this.file, newFile);
+        } catch (IOException e) {
+            getPlugin().getLogger().log(Level.SEVERE, "Couldn't save old config!", e);
+        }
+
+        save();
+
+        log(Level.INFO, "Fixed config generated, old config has been saved to the file: " + newFile.getName());
     }
 }

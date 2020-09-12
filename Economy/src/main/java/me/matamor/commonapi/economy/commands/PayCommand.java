@@ -20,13 +20,13 @@ public class PayCommand extends ICommand<EconomyModule> {
     }
 
     @Override
-    public String getUsage() {
-        return super.getUsage() + " <nombre> <cantidad>";
+    public String getArguments() {
+        return "<name> <amount>";
     }
 
     @Override
     public void onCommand(CommandArgs commandArgs) throws ICommandException {
-        ifFalse(commandArgs.length != 2, "&cUso incorrecto: &4" + getUsage());
+        ifTrue(commandArgs.length != 2, "&cInvalid usage: &4" + commandArgs.getLabel());
 
         Player player = commandArgs.getPlayer();
         String targetName = commandArgs.getString(0);
@@ -36,22 +36,22 @@ public class PayCommand extends ICommand<EconomyModule> {
         try {
             amount = commandArgs.getDouble(1);
         } catch (CastUtils.FormatException e) {
-            throw new ICommandException("&cCantidad invalida: &4" + commandArgs.getString(1));
+            throw new ICommandException("&cInvalid amount: &4" + commandArgs.getString(1));
         }
 
         //Check if balance is positive
 
-        ifFalse(1 > amount, "&cLa cantidad minima es &41&c");
+        ifTrue(0.01 > amount, "&cThe minimum amount is &4" + getPlugin().formatMoney(0.01));
 
         //Check player money is loaded
 
         EconomyEntry playerEntry = getPlugin().getEconomy().getEntry(player.getUniqueId());
 
-        notNull(playerEntry, "&cNo se ha podido cargar tu dinero, prueba volviendote a conectar!");
+        notNull(playerEntry, "&cCouldn't load your money, try reconnecting!");
 
         //Check if player has enough money
 
-        ifTrue(playerEntry.getBalance(getPlugin().getPluginConfig().vaultAccount) >= amount, "&cNo tienes suficiente dinero!");
+        ifFalse(playerEntry.getBalance(getPlugin().getPluginConfig().vaultAccount) >= amount, "&cYou don't have enough money!");
 
         //Check target money is loaded
 
@@ -59,16 +59,16 @@ public class PayCommand extends ICommand<EconomyModule> {
 
         notNull(targetEntry, "&cEl jugador &4%s&c no existe!", targetName);
 
-        ifTrue(targetEntry.getIdentifier().equals(playerEntry.getIdentifier()), "&cNo te puedes pagar a ti mismo!");
+        //ifTrue(targetEntry.getIdentifier().equals(playerEntry.getIdentifier()), "&cYou can't pay to yourself!");
 
-        notNull(targetEntry, "&cNo se ha pdodio cargar el dinero de &4%s&c!", targetEntry.getIdentifier().getName());
+        notNull(targetEntry, "&cCouldn't load the money from &4%s&c!", targetEntry.getIdentifier().getName());
 
         double extra = targetEntry.addBalance(getPlugin().getPluginConfig().vaultAccount, amount);
         double totalPaid = amount - extra;
 
         //Check if anything was paid
 
-        ifTrue(totalPaid == 0, "&cNo se ha podido pagar a &4%s&c porque tiene el maximo de dinero!", targetEntry.getIdentifier().getName());
+        ifTrue(totalPaid == 0, "&cCouldn't pay to &4%s&c because he already has the maximum money!", targetEntry.getIdentifier().getName());
 
         playerEntry.removeBalance(getPlugin().getPluginConfig().vaultAccount, totalPaid);
 
@@ -76,13 +76,13 @@ public class PayCommand extends ICommand<EconomyModule> {
         if (target == null) {
             targetEntry.addNotification(new PaymentNotification(player.getName(), System.currentTimeMillis(), totalPaid));
         } else {
-            commandArgs.sendMessage(target, "&2%s&a te ha pagado &e%s", player.getName(), getPlugin().formatMoney(totalPaid));
+            commandArgs.sendMessage(target, "&2%s&a paid you &e%s", player.getName(), getPlugin().formatMoney(totalPaid));
         }
 
         if (extra > 0) {
-            commandArgs.sendMessage("&cHas pagado a &4%s&c solo &4%s&c porque su dinero llego al maximo, no se le pudo pagar los &4%s&c restantes!", targetEntry.getIdentifier().getName(), getPlugin().formatMoney(totalPaid), getPlugin().formatMoney(amount - totalPaid));
+            commandArgs.sendMessage("&cYou only paid to &4%s&c &4%s&c because his money reached the maximum, couldn't pay the remaining &4%s&c!", targetEntry.getIdentifier().getName(), getPlugin().formatMoney(totalPaid), getPlugin().formatMoney(amount - totalPaid));
         } else {
-            commandArgs.sendMessage("&aHas pagado a &2%s&a &e%s", targetEntry.getIdentifier().getName(), getPlugin().formatMoney(amount));
+            commandArgs.sendMessage("&aYou paid &2%s &e%s", targetEntry.getIdentifier().getName(), getPlugin().formatMoney(amount));
         }
     }
 }

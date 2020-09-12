@@ -1,6 +1,8 @@
 package me.matamor.commonapi.storage.database;
 
-public class DatabaseException extends RuntimeException {
+import me.matamor.commonapi.storage.StorageException;
+
+public class DatabaseException extends StorageException {
 
     public DatabaseException(String message) {
         super(message);

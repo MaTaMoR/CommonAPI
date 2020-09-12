@@ -1,7 +1,6 @@
 package me.matamor.commonapi.utils;
 
-
-import me.matamor.commonapi.modules.Module;
+import me.matamor.commonapi.modules.java.JavaModule;
 import me.matamor.commonapi.utils.annotation.FilePath;
 import me.matamor.commonapi.utils.annotation.PluginClass;
 import org.bukkit.plugin.Plugin;
@@ -13,6 +12,7 @@ import java.util.List;
 
 public class FileUtils {
 
+    @SuppressWarnings("unchecked")
     public static Plugin getPlugin(Class<?> clazz) {
         PluginClass pluginClass = clazz.getAnnotation(PluginClass.class);
         if (pluginClass == null) {
@@ -23,8 +23,8 @@ public class FileUtils {
 
         if (JavaPlugin.class.isAssignableFrom(plugin)) {
             return JavaPlugin.getPlugin((Class<? extends JavaPlugin>) plugin);
-        } else if (Module.class.isAssignableFrom(plugin)) {
-            return Module.getModule((Class<? extends Module>) plugin);
+        } else if (JavaModule.class.isAssignableFrom(plugin)) {
+            return JavaModule.getModule((Class<? extends JavaModule>) plugin);
         } else {
             throw new IllegalStateException("'" + clazz.getName() + "' Doesn't extend JavaPlugin");
         }
@@ -54,7 +54,7 @@ public class FileUtils {
         File file;
         int count = 1;
         while ((file = new File(fileContainer, actualName + extension)).exists()) {
-            actualName = fileName + " " + count++;
+            actualName = fileName + "_" + count++;
         }
 
         return file;

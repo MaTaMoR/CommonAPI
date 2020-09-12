@@ -8,17 +8,16 @@ import me.matamor.commonapi.storage.data.PlayerData;
 import java.util.logging.Level;
 
 @AllArgsConstructor
-@SuppressWarnings("unchecked")
-public class RegisteredData {
+public class RegisteredData<T extends DataEntry> {
 
     @Getter
     private final PlayerData parent;
 
     @Getter
-    private final DataEntry dataEntry;
+    private final T dataEntry;
 
     @Getter
-    private final DataProvider<DataEntry> dataProvider;
+    private final DataProvider<T> dataProvider;
 
     public void save() {
         try {

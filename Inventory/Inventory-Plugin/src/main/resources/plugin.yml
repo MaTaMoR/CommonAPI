@@ -1,0 +1,3 @@
+name: Inventory
+main: me.matamor.commonapi.inventory.InventoryModule
+version: 1.0

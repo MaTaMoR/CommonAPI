@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>me.matamor.commonapi</groupId>
+        <artifactId>CommonAPI</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <artifactId>Inventory</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>Inventory-v1.8.8</module>
+        <module>Inventory-v1.12.2</module>
+        <module>Inventory-v1.13.2</module>
+        <module>Inventory-v1.14.4</module>
+        <module>Inventory-v1.15.2</module>
+        <module>Inventory-Plugin</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>me.matamor.commonapi</groupId>
+            <artifactId>API</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+</project>

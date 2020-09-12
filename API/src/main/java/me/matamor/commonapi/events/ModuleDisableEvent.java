@@ -1,6 +1,7 @@
 package me.matamor.commonapi.events;
 
 import me.matamor.commonapi.modules.Module;
+import me.matamor.commonapi.modules.java.JavaModule;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
@@ -10,7 +11,7 @@ public class ModuleDisableEvent extends Event {
 
     private final Module module;
 
-    public ModuleDisableEvent(Module module) {
+    public ModuleDisableEvent(JavaModule module) {
         this.module = module;
     }
 

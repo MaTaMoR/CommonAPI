@@ -24,6 +24,10 @@ public final class PrimitiveUtils {
     }
 
     public static boolean isInstance(Class<?> clazz, Object object) {
+        if (clazz == null || object == null) {
+            return false;
+        }
+
         if (clazz.isInstance(object)) {
             return true;
         } else if (clazz.isPrimitive() || object.getClass().isPrimitive()) {

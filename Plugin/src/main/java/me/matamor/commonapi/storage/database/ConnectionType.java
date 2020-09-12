@@ -4,7 +4,6 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import me.matamor.commonapi.CommonAPI;
 import me.matamor.commonapi.storage.database.settings.ConnectionSettings;
 import me.matamor.commonapi.storage.database.settings.ConnectionSettingsType;
 
@@ -50,7 +49,7 @@ public enum ConnectionType {
         public HikariDataSource openConnection(SQLDatabaseManager databaseManager) throws DatabaseException {
             ConnectionSettings connectionSettings = databaseManager.getConnectionHandler().getConnectionSettings();
 
-            File databasesFolder = new File(CommonAPI.getInstance().getDataFolder(), "Databases");
+            File databasesFolder = new File(databaseManager.getPlugin().getDataFolder(), "Databases");
             if (!databasesFolder.exists()) {
                 databasesFolder.mkdirs();
             }

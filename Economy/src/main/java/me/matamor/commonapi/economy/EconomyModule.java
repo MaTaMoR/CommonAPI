@@ -2,19 +2,21 @@ package me.matamor.commonapi.economy;
 
 import lombok.Getter;
 import me.matamor.commonapi.CommonAPI;
-import me.matamor.commonapi.economy.commands.*;
+import me.matamor.commonapi.economy.commands.EconomyCommand;
 import me.matamor.commonapi.economy.config.EconomyConfig;
 import me.matamor.commonapi.economy.database.EconomySQLDatabase;
 import me.matamor.commonapi.economy.listener.EconomyListener;
+import me.matamor.commonapi.economy.util.CustomFormat;
 import me.matamor.commonapi.economy.vault.VaultRegister;
 import me.matamor.commonapi.modules.Module;
-import me.matamor.commonapi.storage.identifier.SimpleIdentifier;
+import me.matamor.commonapi.modules.java.JavaModule;
+import me.matamor.commonapi.storage.identifier.Identifier;
 import me.matamor.commonapi.storage.identifier.listener.IdentifierListener;
 
 import java.text.DecimalFormat;
 import java.util.logging.Level;
 
-public class EconomyModule extends Module implements EconomyPlugin {
+public class EconomyModule extends JavaModule implements EconomyPlugin {
 
     @Getter
     private static EconomyModule instance;
@@ -23,7 +25,7 @@ public class EconomyModule extends Module implements EconomyPlugin {
     private EconomyConfig pluginConfig;
 
     @Getter
-    EconomySQLDatabase database;
+    private EconomySQLDatabase database;
 
     @Getter
     private Economy economy;
@@ -39,7 +41,7 @@ public class EconomyModule extends Module implements EconomyPlugin {
         this.pluginConfig.load();
 
         this.database = new EconomySQLDatabase(this);
-        if (!this.database.loadDatabase()) {
+        if (!this.database.connect()) {
             getLogger().log(Level.SEVERE, "Couldn't loadOrCreate economy database! Disabling plugin...");
             getServer().getPluginManager().disablePlugin(this);
             return;
@@ -54,12 +56,12 @@ public class EconomyModule extends Module implements EconomyPlugin {
         //Load EconomyEntry when the Identifier is loaded!
         CommonAPI.getInstance().getIdentifierManager().registerListener(getName(), new IdentifierListener() {
             @Override
-            public void onLoad(SimpleIdentifier identifier) {
+            public void onLoad(Identifier identifier) {
                 getEconomy().load(identifier);
             }
 
             @Override
-            public void onUnload(SimpleIdentifier identifier) {
+            public void onUnload(Identifier identifier) {
                 getEconomy().unload(identifier.getUUID());
             }
         });
@@ -100,6 +102,10 @@ public class EconomyModule extends Module implements EconomyPlugin {
     private static final DecimalFormat FORMAT = new DecimalFormat("###,##0.00");
 
     public String formatMoney(double money) {
-        return this.pluginConfig.moneyFormat.replace("{money}", FORMAT.format(money));
+        if (this.pluginConfig.formatEnabled) {
+            return CustomFormat.format(money, this.pluginConfig.major, this.pluginConfig.minor);
+        } else {
+            return this.pluginConfig.moneyFormat.replace("{money}", FORMAT.format(money));
+        }
     }
 }

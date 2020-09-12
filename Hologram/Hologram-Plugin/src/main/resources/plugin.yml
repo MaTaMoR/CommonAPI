@@ -1,0 +1,3 @@
+name: Hologram
+main: me.matamor.commonapi.hologram.HologramModule
+version: 1.0

@@ -11,7 +11,7 @@ public class EconomyCommand extends ICommand<EconomyModule> {
     public EconomyCommand(EconomyModule plugin) {
         super(plugin, "economy", new String[0]);
 
-        setHelpCommand(new HelpCommand(this));
+        setHelpCommand(new HelpCommand<EconomyModule>(this));
 
         //Balance command
         BalanceCommand balanceCommand = new BalanceCommand(plugin);

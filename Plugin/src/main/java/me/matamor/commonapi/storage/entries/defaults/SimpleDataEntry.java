@@ -2,31 +2,17 @@ package me.matamor.commonapi.storage.entries.defaults;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import me.matamor.commonapi.storage.DataEntryContainer;
 import me.matamor.commonapi.storage.entries.DataEntry;
-import me.matamor.commonapi.storage.entry.EntryDataStorage;
-import me.matamor.commonapi.storage.identifier.SimpleIdentifier;
-import me.matamor.commonapi.utils.map.Callback;
-import org.bukkit.plugin.Plugin;
+import me.matamor.commonapi.storage.identifier.Identifier;
 
 @AllArgsConstructor
 public abstract class SimpleDataEntry implements DataEntry {
 
     @Getter
-    private final Plugin plugin;
+    private DataEntryContainer<DataEntry> container;
 
     @Getter
-    private final SimpleIdentifier identifier;
+    private final Identifier identifier;
 
-    @Getter
-    private final EntryDataStorage dataStorage;
-
-    @Override
-    public void save() {
-        this.dataStorage.save(this);
-    }
-
-    @Override
-    public void saveAsync(Callback<Boolean> callback) {
-        this.dataStorage.saveAsync(this, callback);
-    }
 }

@@ -35,19 +35,19 @@ public class EcoCommand extends ICommand<EconomyModule> {
     }
 
     @Override
-    public String getUsage() {
-        return super.getUsage() + " <give/take/set/reset> <nombre> (cantidad)";
+    public String getArguments() {
+        return "<give/take/set/reset> <name> (amount)";
     }
 
     @Override
     public void onCommand(CommandArgs commandArgs) throws ICommandException {
-        ifFalse(commandArgs.length > 1, "&cUso incorrecto: &4" + commandArgs.getSelfUsage(this));
+        ifFalse(commandArgs.length > 1, "&cInvalid usage: &4" + commandArgs.getLabel( ));
 
         //Get and check the eco command type
 
         EcoCommandType ecoCommandType = EcoCommandType.fromString(commandArgs.getString(0));
 
-        notNull(ecoCommandType, "&cTipo de comando invalido: &4" + commandArgs.getString(0));
+        notNull(ecoCommandType, "&cInvalid type command: &4" + commandArgs.getString(0));
 
         //Get and check the target player
 
@@ -59,14 +59,14 @@ public class EcoCommand extends ICommand<EconomyModule> {
     private void handle(CommandArgs commandArgs, EcoCommandType ecoCommandType, String target) throws ICommandException {
         EconomyEntry targetEntry = getPlugin().getEconomy().getEntryOffline(target);
 
-        notNull(targetEntry, "&cEl jugador &4%s&c no existe!", target);
+        notNull(targetEntry, "&cThe player &4%s&c doesn't exist!", target);
 
         if (ecoCommandType == EcoCommandType.RESET) {
             targetEntry.setBalance(getPlugin().getPluginConfig().vaultAccount, 0);
 
-            commandArgs.sendMessage("&aHas reiniciado el dinero de &2%s&a!", targetEntry.getIdentifier().getName());
+            commandArgs.sendMessage("&aThe money from the player &2%s&a has been reset!", targetEntry.getIdentifier().getName());
         } else {
-            ifFalse(commandArgs.length > 2, "&4Tiene ques especificar una cantidad!");
+            ifFalse(commandArgs.length > 2, "&4You need to specify an amount to use this command!");
 
             //Get and check the amount
 
@@ -75,34 +75,34 @@ public class EcoCommand extends ICommand<EconomyModule> {
             try {
                 amount = commandArgs.getDouble(2);
             } catch (CastUtils.FormatException e) {
-                throw new ICommandException("&cCantidad invalida: &4" + commandArgs.getString(2));
+                throw new ICommandException("&cInvalid amount: &4" + commandArgs.getString(2));
             }
 
             //Check if balance is positive
 
-            ifFalse(1 > amount, "&cLa cantidad minima es &41&c");
+            ifTrue(0.01 > amount, "&cThe minimum amount is &4" + getPlugin().formatMoney(0.01));
 
             switch (ecoCommandType) {
                 case GIVE: {
                     targetEntry.addBalance(getPlugin().getPluginConfig().vaultAccount, amount);
 
-                    commandArgs.sendMessage("&aLe has dado &e%s&a a &2%s&a!", getPlugin().formatMoney(amount), targetEntry.getIdentifier().getName());
+                    commandArgs.sendMessage("&aYou gave &e%s&a to &2%s&a!", getPlugin().formatMoney(amount), targetEntry.getIdentifier().getName());
                     break;
                 }
                 case TAKE: {
                     targetEntry.removeBalance(getPlugin().getPluginConfig().vaultAccount, amount);
 
-                    commandArgs.sendMessage("&aLe has quitado &e%s&a a &2%s&a!", getPlugin().formatMoney(amount), targetEntry.getIdentifier().getName());
+                    commandArgs.sendMessage("&aYou took &e%s&a from &2%s&a!", getPlugin().formatMoney(amount), targetEntry.getIdentifier().getName());
                     break;
                 }
                 case SET: {
                     targetEntry.setBalance(getPlugin().getPluginConfig().vaultAccount, amount);
 
-                    commandArgs.sendMessage("&2%s&a ahora tiene &e%s&a!", targetEntry.getIdentifier().getName(), getPlugin().formatMoney(amount));
+                    commandArgs.sendMessage("&2%s&a now has &e%s&a!", targetEntry.getIdentifier().getName(), getPlugin().formatMoney(amount));
                     break;
                 }
                 default: {
-                    commandArgs.sendMessage("&cAccion invalida: &4" + ecoCommandType.name());
+                    commandArgs.sendMessage("&cInvalid action: &4" + ecoCommandType.name());
                     break;
                 }
             }

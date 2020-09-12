@@ -1,6 +1,7 @@
 package me.matamor.commonapi.modules;
 
 import lombok.Getter;
+import me.matamor.commonapi.modules.java.JavaModule;
 import org.bukkit.Bukkit;
 
 import java.util.logging.Level;
@@ -10,12 +11,12 @@ import java.util.logging.Logger;
 public class ModuleLogger extends Logger {
 
     @Getter
-    private String prefix;
+    private final String prefix;
 
-    public ModuleLogger(Module context) {
+    public ModuleLogger(JavaModule context) {
         super(context.getClass().getCanonicalName(), null);
 
-        this.prefix = "[" + context.getModuleDescription().getName() + "] ";
+        this.prefix = "[" + context.getDescription().getName() + "]";
 
         setParent(Bukkit.getServer().getLogger());
         setLevel(Level.ALL);

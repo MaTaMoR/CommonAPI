@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>me.matamor.commonapi</groupId>
+        <artifactId>CommonAPI</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <artifactId>Hologram</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <modules>
+        <module>Hologram-v1.8.8</module>
+        <module>Hologram-v1.12.2</module>
+        <module>Hologram-v1.13.2</module>
+        <module>Hologram-v1.14.4</module>
+        <module>Hologram-v1.15.2</module>
+        <module>Hologram-Plugin</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>me.matamor.commonapi</groupId>
+            <artifactId>API</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+</project>

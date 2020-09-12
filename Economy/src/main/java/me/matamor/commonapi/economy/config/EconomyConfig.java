@@ -18,58 +18,72 @@ public class EconomyConfig extends CommentedConfig {
     }
 
     @Entry("Config.MaxMoney")
-    @Comment("Dinero maximo que puede tener un jugador")
+    @Comment("Maximum money a player can have!")
     public double maxMoney = 2000000;
 
     @Entry("Config.MinMoney")
-    @Comment("Dinero minimo que puede tener un jugador")
+    @Comment("Minimum money a player can have!")
     public double minMoney = 0;
 
     @Entry("Config.Vault.Enabled")
-    @Comment("Registrar la economia en Vault para que otros plugins la puedan usar")
+    @Comment("Register economy into Vault, enable this to have compatibility with other plugins!")
     public boolean registerVault = false;
 
     @Entry("Config.Vault.Account")
-    @Comment("Cuenta que usara el plugin para Vault")
+    @Comment({"This plugins supports multiple accounts, this one will be used for Vault!", "If you have different economies in the same database you should change this!"})
     public String vaultAccount = "CurrentBalanceAccount";
 
-    @Entry("Config.ImportFromEssentials")
-    @Comment("Importar dinero de Essentials cuando la cuenta se cree por primera vez")
-    public boolean importFromEssentials = false;
+    @Entry("Config.ImportFromIConomy")
+    @Comment("Import money from iConomy when the account is created!")
+    public boolean importFromIConomy = false;
 
     @Entry("Config.MoneyFormat")
-    @Comment("Formatado del dinero que aparecera en los comandos")
+    @Comment("Money's format, if you enable the custom format below this won't be needed!")
     public String moneyFormat = "${money}";
 
     @Entry("Config.OfflineCache")
-    @Comment({"Al cargar la informacion de un jugador desconectado esta se guarda en memoria", "si tu servidor no usa MySQL o ningun otro servidor usa la misma cuenta de Vault activa esta opcion", "al activar esta opcion el plugin es mucho mas rapido", "con transacciones de jugadores desconetados"})
+    @Comment({"When a player leaves the server it's information is usually unloaded", "if you enable this option the player information won't be unloaded", "the information will still be removed but only on the cleanup"})
     public boolean offlineCache = false;
 
     @Entry(value = "Config.NotificationDelay", serializer = TimeSerializer.class)
-    @Comment("Delay antes de enviar las notificaciones de pago cuando el jugador se conecte")
+    @Comment("Delay before sending the notifications when a player connects to the server!")
     public long notificationDelay = TimeUnit.SECONDS.toMillis(1);
 
     @Entry("Config.NotificationMessage")
-    @Comment("Mensaje de notificacion de pago que se envia al jugador cuando se conecta")
-    public String notificationMessage = "&4&lPago &7>&8>&7> &aEl jugador &2{name} &ate pago &e{amount}&a el &2{date}&a!";
+    @Comment("Payment notification sent to the player when he connects to the server")
+    public String notificationMessage = "&4&lPayment &7>&8>&7> &aThe player &2{name}&a paid you &e{amount}&a on &2{date}&a!";
 
     @Entry(value = "Config.Top.Duration", serializer = TimeSerializer.class)
-    @Comment("Cada cuanto se actualiza el top")
+    @Comment("How often is the economy top updated")
     public long topDuration = TimeUnit.MINUTES.toMillis(10);
 
     @Entry("Config.Top.PageSize")
-    @Comment("Cuantos jugadores saldran por cada pagina del top de economia")
+    @Comment("How many players will be displayed on each economy top page")
     public int topPageSize = 10;
 
     @Entry("Config.Top.HeaderFormat")
-    @Comment("Formato del header del top")
-    public List<String> topHeaderFormat = Arrays.asList("&6Top actualizado el ({date})", "&7-------- &cBalancetop &7---- &c{page}&7/&c{total_pages} &7----");
+    @Comment("This is the header format for the economy top")
+    public List<String> topHeaderFormat = Arrays.asList("&6Last economy top update ({date})", "&7-------- &cBalancetop &7---- &c{page}&7/&c{total_pages} &7----");
 
     @Entry("Config.Top.TotalFormat")
-    @Comment("Formato del total de dinero del top")
+    @Comment("The format of the total server money, this will display the total money of all the players in the server")
     public String topTotalFormat = "&2Total: &e{total}";
 
     @Entry("Config.Top.EntryFormat")
-    @Comment("Formato del top de jugadores")
+    @Comment("Format used to display each entry of the top")
     public String topEntryFormat = "&7#{position} &a{name} &e{balance}";
+
+    @Entry("Config.Format.Enabled")
+    @Comment("Enable custom format system ?")
+    public boolean formatEnabled = false;
+
+    @Entry("Config.Format.Major")
+    @Comment("Minor currency")
+    public String major = "Silver";
+
+    @Entry("Config.Format.Minor")
+    @Comment("Minor currency")
+    public String minor = "Copper";
+
+
 }

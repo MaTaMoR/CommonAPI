@@ -1,0 +1,3 @@
+name: Scoreboard
+main: me.matamor.commonapi.scoreboard.ScoreboardModule
+version: 1.0

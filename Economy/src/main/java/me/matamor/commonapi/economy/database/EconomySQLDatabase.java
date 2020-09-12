@@ -1,11 +1,14 @@
 package me.matamor.commonapi.economy.database;
 
 import me.matamor.commonapi.CommonAPI;
-import me.matamor.commonapi.economy.*;
+import me.matamor.commonapi.economy.EconomyEntry;
+import me.matamor.commonapi.economy.EconomyModule;
+import me.matamor.commonapi.economy.PaymentNotification;
+import me.matamor.commonapi.economy.SimpleEconomyEntry;
 import me.matamor.commonapi.economy.commands.BalanceTopCommand;
 import me.matamor.commonapi.storage.database.DatabaseException;
-import me.matamor.commonapi.storage.database.defaults.multi.SimpleMultiSQLDatabaseManager;
-import me.matamor.commonapi.storage.identifier.SimpleIdentifier;
+import me.matamor.commonapi.storage.database.defaults.single.SimpleMultiSQLDatabaseManager;
+import me.matamor.commonapi.storage.identifier.Identifier;
 import me.matamor.commonapi.utils.map.Callback;
 
 import java.sql.Connection;
@@ -17,7 +20,7 @@ import java.util.Map.Entry;
 import java.util.function.Consumer;
 import java.util.logging.Level;
 
-public class EconomySQLDatabase extends SimpleMultiSQLDatabaseManager<SimpleIdentifier, EconomyEntry> {
+public class EconomySQLDatabase extends SimpleMultiSQLDatabaseManager<Identifier, EconomyEntry> {
 
     public EconomySQLDatabase(EconomyModule plugin) {
         super(plugin, "Economy", 1.0);
@@ -62,7 +65,7 @@ public class EconomySQLDatabase extends SimpleMultiSQLDatabaseManager<SimpleIden
     }
 
     @Override
-    public EconomyEntry loadMulti(SimpleIdentifier key, Connection connection) throws SQLException {
+    public EconomyEntry loadMulti(Identifier key, Connection connection) throws SQLException {
         Map<String, Double> entries = new LinkedHashMap<>();
 
         try (PreparedStatement statement = connection.prepareStatement(getQueries().getSelect("Economy"))) {
@@ -87,11 +90,11 @@ public class EconomySQLDatabase extends SimpleMultiSQLDatabaseManager<SimpleIden
             }
         }
 
-        return new SimpleEconomyEntry(getPlugin(), key, entries, notifications);
+        return new SimpleEconomyEntry(getPlugin(), key, (entries.isEmpty()), entries, notifications);
     }
 
     @Override
-    public void deleteMulti(SimpleIdentifier key, Connection connection) throws SQLException {
+    public void deleteMulti(Identifier key, Connection connection) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(getQueries().getSelect("Economy"))) {
             statement.setInt(1, key.getId());
 
@@ -219,7 +222,7 @@ public class EconomySQLDatabase extends SimpleMultiSQLDatabaseManager<SimpleIden
                         int id = resultSet.getInt("id");
                         double balance = resultSet.getDouble("balance");
 
-                        SimpleIdentifier identifier = CommonAPI.getInstance().getIdentifierManager().getIdentifier(id);
+                        Identifier identifier = CommonAPI.getInstance().getIdentifierManager().getIdentifier(id);
                         if (identifier == null) {
                             identifier = CommonAPI.getInstance().getIdentifierManager().load(id);
                         }

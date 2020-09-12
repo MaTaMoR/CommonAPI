@@ -22,10 +22,20 @@
             <version>1.18.0</version>
             <scope>provided</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jetbrains/annotations -->
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>16.0.1</version>
+        </dependency>
     </dependencies>
 
     <modules>
         <module>API</module>
+        <module>Hologram</module>
+        <module>Particles</module>
+        <module>Scoreboard</module>
+        <module>Inventory</module>
         <module>Plugin</module>
         <module>Economy</module>
     </modules>

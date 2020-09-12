@@ -25,20 +25,45 @@
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>org.spigot</groupId>
+            <groupId>me.matamor.commonapi</groupId>
+            <artifactId>v1.8.8</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>me.matamor.commonapi</groupId>
+            <artifactId>v1.12.2</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>me.matamor.commonapi</groupId>
+            <artifactId>v1.13.2</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>me.matamor.commonapi</groupId>
+            <artifactId>v1.14.4</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>me.matamor.commonapi</groupId>
+            <artifactId>v1.15.2</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.13.2</version>
+            <version>1.13.2-R0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>LATEST</version>
+            <version>3.4.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>LATEST</version>
+            <version>1.7.29</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -66,6 +91,7 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
+                                    <include>me.matamor.commonapi:API</include>
                                     <include>com.zaxxer:HikariCP</include>
                                     <include>org.slf4j:*</include>
                                 </includes>

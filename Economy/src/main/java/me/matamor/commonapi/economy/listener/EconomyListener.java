@@ -3,6 +3,8 @@ package me.matamor.commonapi.economy.listener;
 import lombok.Getter;
 import me.matamor.commonapi.economy.EconomyEntry;
 import me.matamor.commonapi.economy.EconomyModule;
+import me.matamor.commonapi.economy.mini.Arguments;
+import me.matamor.commonapi.economy.mini.Mini;
 import me.matamor.commonapi.utils.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,14 +13,10 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.text.SimpleDateFormat;
-import java.util.logging.FileHandler;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 public class EconomyListener implements Listener {
 
@@ -27,32 +25,18 @@ public class EconomyListener implements Listener {
     @Getter
     private final EconomyModule plugin;
 
-    private final Logger logger;
+    @Getter
+    private Mini mini;
 
     public EconomyListener(EconomyModule plugin) {
         this.plugin = plugin;
 
-        this.logger = Logger.getLogger("EconomyErrors");
-        this.logger.setUseParentHandlers(false);
+        if (this.plugin.getPluginConfig().importFromIConomy) {
+            File miniFile = new File("plugins/iConomy/");
 
-        File logFolder = new File(this.plugin.getDataFolder() + File.separator + "Logs");
-        if (!logFolder.exists()) {
-            logFolder.mkdirs();
-        }
-
-        File file = new File(logFolder,"economy_errors.log");
-
-        try {
-            if (!file.exists()) {
-                file.createNewFile();
+            if (miniFile.exists()) {
+                this.mini = new Mini(miniFile.getPath(), "accounts.mini");
             }
-
-            FileHandler fileHandler = new FileHandler(file.getPath());
-            fileHandler.setFormatter(new SimpleFormatter());
-
-            this.logger.addHandler(fileHandler);
-        } catch (IOException e) {
-            plugin.getLogger().log(Level.SEVERE, "Couldn't add file logger handler!", e);
         }
     }
 
@@ -60,21 +44,44 @@ public class EconomyListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        this.plugin.getServer().getScheduler().runTaskLater(this.plugin, () -> {
-            if (player.isOnline()) {
-                EconomyEntry economyEntry = this.plugin.getEconomy().getEntry(player.getUniqueId());
+        EconomyEntry economyEntry = this.plugin.getEconomy().getEntry(player.getUniqueId());
 
-                if (economyEntry != null && economyEntry.hasNotifications()) {
-                    economyEntry.getNotifications().forEach(notification ->
-                            player.sendMessage(StringUtils.color(this.plugin.getPluginConfig().notificationMessage
-                                .replace("{name}", notification.getName())
-                                .replace("{date}", DATE_FORMAT.format(notification.getDate()))
-                                .replace("{amount}", this.plugin.formatMoney(notification.getAmount())))));
+        if (economyEntry != null) {
+            if (this.plugin.getPluginConfig().importFromIConomy && this.mini != null && economyEntry.isNewAccount()) {
+                Arguments arguments = this.mini.getArguments(player.getName());
+                if (arguments == null) {
+                    arguments = this.mini.getArguments(player.getUniqueId());
+                }
 
-                    economyEntry.clearNotifications();
+                if (arguments != null) {
+                    double oldBalance = arguments.getDouble("balance");
+
+                    if (oldBalance > 0) {
+                        economyEntry.addBalance(this.plugin.getPluginConfig().vaultAccount, oldBalance);
+
+                        this.plugin.getLogger().log(Level.INFO, "[EconomyImporter] Old balance (" + oldBalance + ") from player (" + player.getName() + ") has been imported from iConomy!");
+                    }
+
+                    //Delete the entry from the database
+                    this.mini.removeIndex(arguments.getKey());
                 }
             }
-        }, this.plugin.getPluginConfig().notificationDelay / 50);
+
+            if (economyEntry.hasNotifications()) {
+                this.plugin.getServer().getScheduler().runTaskLater(this.plugin, () -> {
+                    if (player.isOnline()) {
+                        economyEntry.getNotifications().forEach(notification ->
+                                player.sendMessage(StringUtils.color(this.plugin.getPluginConfig().notificationMessage
+                                        .replace("{name}", notification.getName())
+                                        .replace("{date}", DATE_FORMAT.format(notification.getDate()))
+                                        .replace("{amount}", this.plugin.formatMoney(notification.getAmount())))));
+
+                        economyEntry.clearNotifications();
+                    }
+                }, this.plugin.getPluginConfig().notificationDelay / 50);
+            }
+        }
+
     }
 
     @EventHandler

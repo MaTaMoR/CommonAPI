@@ -60,7 +60,7 @@ public class ULocation {
 
     /*
 
-        Will return null for the World is also null!
+        Will return null if the World is also null!
 
      */
 

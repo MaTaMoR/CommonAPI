@@ -1,5 +1,6 @@
 package me.matamor.commonapi.storage.database.defaults.multi;
 
+import me.matamor.commonapi.storage.database.defaults.single.SimpleMultiSQLDatabaseManager;
 import me.matamor.commonapi.storage.identifier.SimpleIdentifier;
 import org.bukkit.plugin.Plugin;
 

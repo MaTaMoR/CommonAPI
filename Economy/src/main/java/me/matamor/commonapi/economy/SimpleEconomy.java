@@ -2,8 +2,8 @@ package me.matamor.commonapi.economy;
 
 import lombok.Getter;
 import me.matamor.commonapi.CommonAPI;
-import me.matamor.commonapi.custominventories.utils.BasicTaskHandler;
-import me.matamor.commonapi.storage.identifier.SimpleIdentifier;
+import me.matamor.commonapi.storage.identifier.Identifier;
+import me.matamor.commonapi.utils.BukkitTaskHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -20,7 +20,7 @@ public class SimpleEconomy implements Economy {
     private final EconomyModule plugin;
 
     @Getter
-    private final BasicTaskHandler taskHandler;
+    private final BukkitTaskHandler taskHandler;
 
     public SimpleEconomy(EconomyModule plugin) {
         this.plugin = plugin;
@@ -29,7 +29,7 @@ public class SimpleEconomy implements Economy {
         //30 minutes
         int delay = 20 * 60 * 30;
 
-        this.taskHandler = new BasicTaskHandler() {
+        this.taskHandler = new BukkitTaskHandler() {
             @Override
             public BukkitTask createTask() {
                 return new BukkitRunnable() {
@@ -37,7 +37,7 @@ public class SimpleEconomy implements Economy {
                     public void run() {
                         cleanup();
                     }
-                }.runTaskTimer(plugin.getParent(), delay, delay);
+                }.runTaskTimer(plugin, delay, delay);
             }
         };
 
@@ -45,12 +45,12 @@ public class SimpleEconomy implements Economy {
     }
 
     @Override
-    public EconomyEntry load(SimpleIdentifier identifier) {
+    public EconomyEntry load(Identifier identifier) {
         return load(identifier, true);
     }
 
     @Override
-    public EconomyEntry load(SimpleIdentifier identifier, boolean cache) {
+    public EconomyEntry load(Identifier identifier, boolean cache) {
         EconomyEntry economyEntry = this.entries.get(identifier.getUUID());
 
         if (economyEntry == null) {
@@ -71,7 +71,7 @@ public class SimpleEconomy implements Economy {
     @Override
     public void loadAll() {
         for (Player player : CommonAPI.getInstance().getServer().getOnlinePlayers()) {
-            SimpleIdentifier identifier = CommonAPI.getInstance().getIdentifierManager().getIdentifier(player.getUniqueId());
+            Identifier identifier = CommonAPI.getInstance().getIdentifierManager().getIdentifier(player.getUniqueId());
 
             //Load every online player
             load(identifier);

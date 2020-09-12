@@ -14,8 +14,8 @@ public class BalanceCommand extends ICommand<EconomyModule> {
     }
 
     @Override
-    public String getUsage() {
-        return super.getUsage() + " (nombre)";
+    public String getArguments() {
+        return "(name)";
     }
 
     @Override
@@ -23,11 +23,11 @@ public class BalanceCommand extends ICommand<EconomyModule> {
         String name;
 
         if (commandArgs.length == 0) {
-            ifFalse(commandArgs.isPlayer(), "&cPara usar este comando desde la consola debes especificar un jugador: &4" + getUsage());
+            ifFalse(commandArgs.isPlayer(), "&cYou need to specify a player to use this command from console: &4" + getUsage());
 
             name = commandArgs.getPlayer().getName();
         } else {
-            ifFalse(Permissions.BALANCE_COMMAND_BALANCE_OTHER.hasPermission(commandArgs.getSender()), "&cNo tienes permisos para ejecutar este comando en otros jugadores!");
+            ifFalse(Permissions.BALANCE_COMMAND_BALANCE_OTHER.hasPermission(commandArgs.getSender()), "&cYou don't have permissions to use this command on other players!");
 
             name = commandArgs.getString(0);
         }
@@ -36,18 +36,18 @@ public class BalanceCommand extends ICommand<EconomyModule> {
 
         EconomyEntry economyEntry = getPlugin().getEconomy().getEntryOffline(name);
 
-        notNull(economyEntry, "&cEl jugador &4%s&c no existe!", name);
+        notNull(economyEntry, "&cThe player &4%s&c doesn't exist!", name);
 
         if (self) {
-            notNull(economyEntry, "&cNo se ha podido cargar tu dinero, prueba volviendote a conectar!");
+            notNull(economyEntry, "&cCouldn't load your money, try reconnecting!");
         } else {
-            notNull(economyEntry, "&cNo se ha podido cargar el dinero del jugador: &4%s", economyEntry.getIdentifier().getName());
+            notNull(economyEntry, "&cCouldn't load the money from the player: &4%s", economyEntry.getIdentifier().getName());
         }
 
         if (self) {
             commandArgs.sendMessage("&aBalance: &e%s", getPlugin().formatMoney(economyEntry.getBalance(getPlugin().getPluginConfig().vaultAccount)));
         } else {
-            commandArgs.sendMessage("&aBalance de &2%s&a: &e%s", economyEntry.getIdentifier().getName(), getPlugin().formatMoney(economyEntry.getBalance(getPlugin().getPluginConfig().vaultAccount)));
+            commandArgs.sendMessage("&2%s's&a balance: &e%s", economyEntry.getIdentifier().getName(), getPlugin().formatMoney(economyEntry.getBalance(getPlugin().getPluginConfig().vaultAccount)));
         }
     }
 }

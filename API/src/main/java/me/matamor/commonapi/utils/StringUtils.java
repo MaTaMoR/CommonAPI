@@ -27,6 +27,22 @@ public final class StringUtils {
         return collection.stream().map(StringUtils::color).collect(Collectors.toList());
     }
 
+    public static String removeColor(String text) {
+        Validate.notNull(text, "Text can't be null!");
+
+        return ChatColor.stripColor(color(text));
+    }
+
+    public static String repeat(char character, int times) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; times > i; i++) {
+            stringBuilder.append(character);
+        }
+
+        return stringBuilder.toString();
+    }
+
     public static void sendMessage(CommandSender commandSender, String message) {
         String[] split = message.split("\\{new_line}");
 
@@ -129,5 +145,23 @@ public final class StringUtils {
         } else {
             return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
         }
+    }
+
+    public static String join(String[] args, String separator) {
+        if (args.length == 0) {
+            return "";
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; args.length > i; i++) {
+            stringBuilder.append(args[i]);
+
+            if ((i + 1) < args.length) {
+                stringBuilder.append(separator);
+            }
+        }
+
+        return stringBuilder.toString().trim();
     }
 }

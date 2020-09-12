@@ -1,16 +1,11 @@
 package me.matamor.commonapi;
 
-import com.google.common.base.Charsets;
 import lombok.Getter;
-import me.matamor.commonapi.commands.cmds.defaults.MainCommand;
-import me.matamor.commonapi.custominventories.events.InventoryEvents;
-import me.matamor.commonapi.custominventories.utils.BungeeCord;
-import me.matamor.commonapi.custominventories.utils.Settings;
-import me.matamor.commonapi.custominventories.utils.server.ServerManager;
+import me.matamor.commonapi.defaults.MainCommand;
 import me.matamor.commonapi.listeners.DataListener;
 import me.matamor.commonapi.modules.Module;
-import me.matamor.commonapi.modules.ModuleLoader;
-import me.matamor.commonapi.modules.ModuleManager;
+import me.matamor.commonapi.modules.java.JavaModuleLoader;
+import me.matamor.commonapi.modules.java.SimpleModuleManager;
 import me.matamor.commonapi.storage.DataHandler;
 import me.matamor.commonapi.storage.InstanceProviderManager;
 import me.matamor.commonapi.storage.SimpleInstanceProviderManager;
@@ -19,10 +14,13 @@ import me.matamor.commonapi.storage.data.SimpleDataManager;
 import me.matamor.commonapi.storage.database.settings.ConnectionSettingsManager;
 import me.matamor.commonapi.storage.entries.DataEntries;
 import me.matamor.commonapi.storage.entries.DataStorageManager;
-import me.matamor.commonapi.storage.identifier.IdentifierManager;
 import me.matamor.commonapi.storage.identifier.IdentifierDatabase;
+import me.matamor.commonapi.storage.identifier.IdentifierManager;
 import me.matamor.commonapi.storage.identifier.SimpleIdentifierDatabase;
 import me.matamor.commonapi.storage.identifier.SimpleIdentifierManager;
+import me.matamor.commonapi.utils.Pair;
+import me.matamor.commonapi.utils.Reflections;
+import me.matamor.commonapi.utils.StringUtils;
 import me.matamor.commonapi.utils.ULocation;
 import me.matamor.commonapi.utils.serializer.SerializationManager;
 import me.matamor.commonapi.utils.serializer.TimeSerializer;
@@ -31,17 +29,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.File;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 
-public class CommonAPI extends JavaPlugin implements DataHandler, ModuleManager {
+public class CommonAPI extends JavaPlugin implements DataHandler {
 
     private final AtomicBoolean loaded = new AtomicBoolean(false);
 
@@ -70,25 +64,25 @@ public class CommonAPI extends JavaPlugin implements DataHandler, ModuleManager 
     private DataManager dataManager;
 
     @Getter
-    private ServerManager serverManager;
-
-    @Getter
-    private BungeeCord bungeeCord;
-
-    @Getter
-    private ModuleLoader moduleLoader;
-
-    private Set<Module> modules;
+    private SimpleModuleManager moduleManager;
 
     @Override
     public void onEnable() {
         instance = this;
 
+        CommonAPIPlugin.setPlugin(this);
+
+        getLogger().log(Level.INFO, "Registering default serializers...");
+
         registerSerializers();
 
         //Load config and the config converter!
 
+        getLogger().log(Level.INFO, "Registering data listener...");
+
         registerEvents(new DataListener(this));
+
+        getLogger().log(Level.INFO, "Initializing data storage...");
 
         //Initialize the data!
         initializeData();
@@ -96,33 +90,24 @@ public class CommonAPI extends JavaPlugin implements DataHandler, ModuleManager 
         //Load all the PlayerData!
         this.dataManager.loadAll();
 
-        //Load inventories API
-        initializeInventoryAPI();
-
         MainCommand mainCommand = new MainCommand(this);
         mainCommand.register();
+
+        getLogger().log(Level.INFO, "Initializing Modules...");
 
         initializeModules();
 
         //This is done to prevent players from joining the server when it's not completely loaded!
-        getServer().getScheduler().scheduleSyncDelayedTask(this, () -> getServer().getScheduler().runTaskLater(this, () -> this.loaded.set(true), 20 * 5));
+        getServer().getScheduler().scheduleSyncDelayedTask(this, () -> getServer().getScheduler().runTaskLater(this, () -> this.loaded.set(true), 20));
     }
 
     @Override
     public void onDisable() {
-        if (this.moduleLoader != null && this.modules != null) {
-            for (Module module : this.modules) {
-                try {
-                    this.moduleLoader.disableModule(module);
-                } catch (Exception e) {
-                    getLogger().log(Level.SEVERE, "[ModuleManager] Couldn't disable the module: " + module.getName(), e);
-                }
-            }
-        }
+        instance = null;
+        CommonAPIPlugin.removePlugin();
 
-        if (this.serverManager != null) {
-            this.serverManager.stop();
-            this.serverManager.clear();
+        if (this.moduleManager != null) {
+            this.moduleManager.disableModules();
         }
 
         for (Player player : getServer().getOnlinePlayers()) {
@@ -176,34 +161,55 @@ public class CommonAPI extends JavaPlugin implements DataHandler, ModuleManager 
         SerializationManager.getInstance().register(ULocation.class, new ULocationSerializer());
     }
 
-    private void initializeInventoryAPI() {
-        Settings.load(this);
-
-        saveDefaultConfig();
-
-        getServer().getPluginManager().registerEvents(new InventoryEvents(this), this);
-        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-
-        bungeeCord = new BungeeCord(this);
-        serverManager = new ServerManager(this);
-    }
-
     private void initializeModules() {
         try {
-            this.moduleLoader = new ModuleLoader(this);
+            this.moduleManager = new SimpleModuleManager(getServer());
+            this.moduleManager.registerInterface(JavaModuleLoader.class);
 
-            Set<Module> modules = new HashSet<>();
+            File folder = new File(getDataFolder(), "Modules");
+            if (folder.exists()) {
+                Module[] loadedModules = this.moduleManager.loadModules(folder);
 
-            for (Module module : this.moduleLoader.loadModules()) {
-                try {
-                    this.moduleLoader.enableModule(module);
-                    modules.add(module);
-                } catch (Exception e) {
-                    getLogger().log(Level.SEVERE, "[ModuleManager] Couldn't loadOrCreate the module: " + module.getName(), e);
+                if (loadedModules.length > 0) {
+                    //This part is a try to replace the map into something that will use the Modules class loaders aswell
+                    Reflections.FieldAccessor<Map> fieldAccessor = Reflections.getField(getClassLoader().getClass(), "classes", Map.class);
+                    Map<String, Class<?>> newClasses = new ConcurrentHashMap<String, Class<?>>() {
+
+                        @Override
+                        public Class<?> get(Object key) {
+                            Class<?> clazz = super.get(key);
+
+                            if (clazz == null && key instanceof String) {
+                                clazz = getModuleManager().findClass((String) key);
+                            }
+
+                            return clazz;
+                        }
+                    };
+
+                    Map<?, ?> map = fieldAccessor.get(getClassLoader());
+                    map.entrySet().stream()
+                            .filter(e -> e.getKey() instanceof String && e.getValue() instanceof Class)
+                            .map(e -> new Pair<String, Class<?>>((String) e.getKey(), (Class<?>) e.getValue()))
+                            .forEach(e -> newClasses.put(e.getKey(), e.getValue()));
+
+                    fieldAccessor.set(getClassLoader(), newClasses);
                 }
-            }
 
-            this.modules = Collections.unmodifiableSet(modules);
+                getLogger().log(Level.INFO, "[ModuleManager] Modules loaded: " + StringUtils.toString(Module::getName, loadedModules));
+
+                for (Module module : loadedModules) {
+                    try {
+                        this.moduleManager.enableModule(module);
+
+                        getLogger().log(Level.INFO, "[ModuleManager] Enabled '" + module.getName() + "' module!");
+                    } catch (Exception e) {
+                        getLogger().log(Level.SEVERE, "[ModuleManager] Couldn't enable '" + module.getName() + "' module!");
+                    }
+                }
+            } else {
+                getLogger().log(Level.INFO, "[ModuleManager] Modules folder is missing!");
+            }
         } catch (Exception e) {
             getLogger().log(Level.SEVERE, "[ModuleManager] There was an error while loading the modules:", e);
         }
@@ -214,79 +220,4 @@ public class CommonAPI extends JavaPlugin implements DataHandler, ModuleManager 
             getServer().getPluginManager().registerEvents(listener, this);
         }
     }
-
-    @Override
-    public Module getModule(String moduleName) {
-        return this.modules.stream().filter(m -> m.getName().equals(moduleName)).findFirst().orElse(null);
-    }
-
-    @Override
-    public boolean isEnabled(String moduleName) {
-        return getModule(moduleName) != null;
-    }
-
-    @Override
-    public Collection<Module> getModules() {
-        return this.modules;
-    }
-
-
-    public class PlayerChangeNamePacket {
-
-        private String player;
-
-        private String name;
-
-        public PlayerChangeNamePacket() {
-
-        }
-
-        public PlayerChangeNamePacket(String player, String name) {
-            this.player = player;
-            this.name = name;
-        }
-
-        public void serialize(ByteArrayOutputStream byteArray) throws IOException {
-            //Escribimos los bytes del nombre del jugador
-
-            byte[] playerArray = this.player.getBytes(Charsets.UTF_8);
-
-            byteArray.write(playerArray.length); //Hace falta escribir el tamaño del texto para luego saber cuanto leer
-            byteArray.write(playerArray);
-
-            byte[] nameArray = this.player.getBytes(Charsets.UTF_8);
-
-            //Escribimos los bytes del nuevo nombre del jugador
-            byteArray.write(nameArray.length);
-            byteArray.write(nameArray);
-        }
-
-        public void deserialize(ByteArrayInputStream byteArray) throws IOException {
-            //Leemos primero el tamaño del texto que esperamos para asi luego cargarlo bien
-            int playerLength = byteArray.read();
-
-            byte[] playerArray = new byte[playerLength];
-            byteArray.read(playerArray, 0, playerLength);
-
-            this.player = new String(playerArray, Charsets.UTF_8);
-
-            int nameLength = byteArray.read();
-
-            byte[] nameArray = new byte[nameLength];
-            byteArray.readNBytes(nameArray, 0, nameLength);
-
-            this.name = new String(nameArray, Charsets.UTF_8);
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-    
 }

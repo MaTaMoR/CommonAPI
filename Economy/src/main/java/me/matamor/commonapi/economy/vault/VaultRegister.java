@@ -27,7 +27,7 @@ public class VaultRegister {
         if (this.economy == null) return false;
 
         RegisteredServiceProvider<Economy> serviceProvider = this.plugin.getServer().getServicesManager().getRegistration(Economy.class);
-        return serviceProvider != null && serviceProvider.getProvider() != null && serviceProvider.getProvider() == this.economy;
+        return serviceProvider != null && serviceProvider.getProvider() == this.economy;
     }
 
     public void unregister() {

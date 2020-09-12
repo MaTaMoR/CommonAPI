@@ -9,13 +9,13 @@ import java.util.UUID;
 
 public interface IdentifierManager {
 
-    Identifier load(int id);
+    Identifier load(int id) throws StorageException;
 
-    Identifier load(String name);
+    Identifier load(String name) throws StorageException;
 
-    Identifier load(UUID uuid);
+    Identifier load(UUID uuid) throws StorageException;
 
-    Identifier loadOrCreate(UUID uuid, String name);
+    Identifier loadOrCreate(UUID uuid, String name) throws StorageException;
 
     void register(Identifier identifier);
 

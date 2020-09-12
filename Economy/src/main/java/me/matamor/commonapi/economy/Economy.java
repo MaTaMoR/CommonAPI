@@ -1,7 +1,7 @@
 package me.matamor.commonapi.economy;
 
 import me.matamor.commonapi.CommonAPI;
-import me.matamor.commonapi.storage.identifier.SimpleIdentifier;
+import me.matamor.commonapi.storage.identifier.Identifier;
 import org.bukkit.plugin.Plugin;
 
 import java.util.UUID;
@@ -10,9 +10,9 @@ public interface Economy {
 
     Plugin getPlugin();
 
-    EconomyEntry load(SimpleIdentifier identifier);
+    EconomyEntry load(Identifier identifier);
 
-    EconomyEntry load(SimpleIdentifier identifier, boolean cache);
+    EconomyEntry load(Identifier identifier, boolean cache);
 
     void loadAll();
 
@@ -30,7 +30,7 @@ public interface Economy {
         EconomyEntry economyEntry = getEntry(name);
         if (economyEntry == null) {
             //Load first from memory
-            SimpleIdentifier identifier = CommonAPI.getInstance().getIdentifierManager().getIdentifier(name);
+            Identifier identifier = CommonAPI.getInstance().getIdentifierManager().getIdentifier(name);
 
             //If not loaded then try to directly loadOrCreate from database
             if (identifier == null) {
@@ -50,7 +50,7 @@ public interface Economy {
         EconomyEntry economyEntry = getEntry(uuid);
         if (economyEntry == null) {
             //Load first from memory
-            SimpleIdentifier identifier = CommonAPI.getInstance().getIdentifierManager().getIdentifier(uuid);
+            Identifier identifier = CommonAPI.getInstance().getIdentifierManager().getIdentifier(uuid);
 
             //If not loaded then try to directly loadOrCreate from database
             if (identifier == null) {

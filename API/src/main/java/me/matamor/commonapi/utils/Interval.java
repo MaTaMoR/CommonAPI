@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 public class Interval {
 
     private final long time;
+
     private long lastTime;
 
     public Interval(TimeUnit timeUnit, long time) {
