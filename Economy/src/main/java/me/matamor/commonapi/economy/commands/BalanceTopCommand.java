@@ -22,12 +22,14 @@ import java.util.logging.Level;
 
 public class BalanceTopCommand extends ICommand<EconomyModule> {
 
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("hh:mm:ss yyyy-mm-dd");
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("hh:mm:ss yyyy-MM-dd");
 
     private final BalanceTop balanceTop;
 
     public BalanceTopCommand(EconomyModule plugin) {
         super(plugin, "balancetop", new String[] { "baltop" });
+
+        setPermission(Permissions.BALANCE_COMMAND_TOP);
 
         this.balanceTop = new BalanceTop(plugin);
     }

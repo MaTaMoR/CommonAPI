@@ -4,10 +4,13 @@ import me.matamor.commonapi.modules.Module;
 import me.matamor.commonapi.modules.ModuleLoader;
 import me.matamor.commonapi.modules.ModuleManager;
 import me.matamor.commonapi.modules.exception.InvalidModuleException;
+import me.matamor.commonapi.utils.Reflections;
 import me.matamor.commonapi.utils.Validate;
 import org.bukkit.Server;
 import org.bukkit.event.HandlerList;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.FileUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,12 +18,14 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SimpleModuleManager implements ModuleManager {
 
+    private final Plugin parent;
     private final Server server;
 
     private final Map<Pattern, ModuleLoader> fileAssociations = new HashMap<>();
@@ -29,8 +34,9 @@ public class SimpleModuleManager implements ModuleManager {
     @SuppressWarnings("UnstableApiUsage")
     private File updateDirectory;
 
-    public SimpleModuleManager(@NotNull Server instance) {
-        server = instance;
+    public SimpleModuleManager(@NotNull Plugin parent) {
+        this.parent = parent;
+        this.server = parent.getServer();
     }
 
     @Override
@@ -41,8 +47,8 @@ public class SimpleModuleManager implements ModuleManager {
             Constructor<? extends ModuleLoader> constructor;
 
             try {
-                constructor = loader.getConstructor(Server.class);
-                instance = constructor.newInstance(server);
+                constructor = loader.getConstructor(Plugin.class);
+                instance = constructor.newInstance(this.parent);
             } catch (NoSuchMethodException ex) {
                 String className = loader.getName();
 
@@ -391,9 +397,37 @@ public class SimpleModuleManager implements ModuleManager {
         }
     }
 
-    public Class<?> findClass(String name) {
-        for (Module module : this.modules) {
-            Class<?> clazz = module.getModuleLoader().getClassByName(name);
+    public void inject(JavaPlugin plugin) {
+        Reflections.MethodInvoker methodInvoker = Reflections.getMethod(JavaPlugin.class, "getClassLoader");
+        Object classLoader = methodInvoker.invoke(plugin);
+
+        //This part is a try to replace the map into something that will use the Modules class loaders aswell
+        Reflections.FieldAccessor<Map> fieldAccessor = Reflections.getField(classLoader.getClass(), "classes", Map.class);
+        Map<String, Class<?>> newClasses = new ConcurrentHashMap<String, Class<?>>() {
+
+            @Override
+            public Class<?> get(Object key) {
+                Class<?> clazz = super.get(key);
+
+                if (clazz == null && key instanceof String) {
+                    clazz = findClass((String) key);
+                }
+
+                return clazz;
+            }
+        };
+
+        Map<?, ?> map = fieldAccessor.get(classLoader);
+        map.entrySet().stream()
+                .filter(e -> e.getKey() instanceof String && e.getValue() instanceof Class)
+                .forEach(e -> newClasses.put((String) e.getKey(), (Class<?>) e.getValue()));
+
+        fieldAccessor.set(classLoader, newClasses);
+    }
+
+    private Class<?> findClass(String name) {
+        for (ModuleLoader moduleLoader : this.fileAssociations.values()) {
+            Class<?> clazz = moduleLoader.getClassByName(name);
             if (clazz != null) {
                 return clazz;
             }

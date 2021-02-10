@@ -95,13 +95,13 @@ public class EconomySQLDatabase extends SimpleMultiSQLDatabaseManager<Identifier
 
     @Override
     public void deleteMulti(Identifier key, Connection connection) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(getQueries().getSelect("Economy"))) {
+        try (PreparedStatement statement = connection.prepareStatement(getQueries().getDelete("Economy"))) {
             statement.setInt(1, key.getId());
 
             statement.executeUpdate();
         }
 
-        try (PreparedStatement statement = connection.prepareStatement(getQueries().getSelect("Notifications"))) {
+        try (PreparedStatement statement = connection.prepareStatement(getQueries().getDelete("Notifications"))) {
             statement.setInt(1, key.getId());
 
             statement.executeUpdate();
@@ -128,7 +128,7 @@ public class EconomySQLDatabase extends SimpleMultiSQLDatabaseManager<Identifier
 
     public void deleteEconomyEntry(int id, String account) {
         try {
-            try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(getQueries().getQuery("RemoveEntryEconomy"))) {
+            try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(getQueries().getDelete("EconomyEntry"))) {
                 statement.setInt(1, id);
                 statement.setString(2, account);
 
@@ -164,7 +164,7 @@ public class EconomySQLDatabase extends SimpleMultiSQLDatabaseManager<Identifier
 
     public void deleteNotificationEntry(int id, PaymentNotification notification) {
         try {
-            try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(getQueries().getDelete("RemoveNotificationEntry"))) {
+            try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(getQueries().getDelete("NotificationEntry"))) {
                 statement.setInt(1, id);
                 statement.setLong(2, notification.getDate());
 

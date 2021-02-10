@@ -9,6 +9,7 @@ public class CustomFormat {
 
         String stringBalance = String.valueOf(balance);
         String[] args = stringBalance.split("\\.");
+
         StringBuilder stringBuilder = new StringBuilder();
 
         if (balance > 1) {
@@ -25,15 +26,17 @@ public class CustomFormat {
 
             decimal = decimal.substring(0, maxLength);
 
-            if (decimal.length() == 1) {
-                decimal = decimal + "0";
-            }
+            if (!decimal.equals("0") && !decimal.equals("00")) {
+                if (decimal.length() == 1) {
+                    decimal = decimal + "0";
+                }
 
-            if (decimal.startsWith("0")) {
-                decimal = decimal.substring(1);
-            }
+                if (decimal.startsWith("0")) {
+                    decimal = decimal.substring(1);
+                }
 
-            stringBuilder.append(" ").append(decimal).append(" ").append(minor);
+                stringBuilder.append(" ").append(decimal).append(" ").append(minor);
+            }
         }
 
         return stringBuilder.toString().trim();

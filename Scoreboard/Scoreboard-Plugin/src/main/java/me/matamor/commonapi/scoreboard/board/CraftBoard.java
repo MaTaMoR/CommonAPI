@@ -115,7 +115,6 @@ public class CraftBoard implements Board {
             }
 
             if (score != null) {
-                System.out.println("Borrando entry: " + score.getEntry());
                 boardData.getObjective().removeScore(score.getEntry());
             }
 
@@ -198,7 +197,7 @@ public class CraftBoard implements Board {
 
     private PlayerBoardData createScoreboard(Player viewer) {
         return this.viewers.computeIfAbsent(viewer.getUniqueId(), (key) -> {
-            NMSScoreboard scoreboard = ScoreboardModule.getInstance().getScoreboardController().createScoreboard();
+            NMSScoreboard scoreboard = this.plugin.getScoreboardController().createScoreboard();
             NMSObjective objective = scoreboard.getObjective(DisplaySlot.SIDEBAR);
 
             objective.setDisplayName(this.displayName.getText(viewer));
@@ -223,19 +222,14 @@ public class CraftBoard implements Board {
 
     @Override
     public void update(@NotNull Player viewer) {
-        PlayerBoardData boardData = this.viewers.get(viewer.getUniqueId());
-        if (boardData != null) {
-            NMSObjective objective = boardData.getScoreboard().getObjective(DisplaySlot.SIDEBAR);
-
-            objective.setDisplayName(this.displayName.getText(viewer));
-
-            this.lines.forEach((k, v) -> objective.getScore(v.getText(viewer)).setScore(k));
-        }
+        updateDisplayName();
+        updateLines();
     }
 
     @Override
     public void hide() {
-        hide(getViewers());
+        this.viewers.values().forEach(e -> e.getScoreboard().hide());
+        this.viewers.clear();
     }
 
     @Override
@@ -259,8 +253,6 @@ public class CraftBoard implements Board {
     @Override
     public void clear() {
         hide();
-
-        this.viewers.clear();
     }
 
     @AllArgsConstructor

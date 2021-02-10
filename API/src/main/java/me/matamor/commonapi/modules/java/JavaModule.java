@@ -8,6 +8,7 @@ import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +25,7 @@ public class JavaModule implements Module {
 
     private boolean enabled = false;
     private JavaModuleLoader loader = null;
-    private Server server;
+    private Plugin plugin;
     private File file = null;
     private PluginDescriptionFile description = null;
     private File dataFolder = null;
@@ -174,12 +175,12 @@ public class JavaModule implements Module {
 
     @Override
     public @NotNull PluginLoader getPluginLoader() {
-        throw new RuntimeException("This is a Module, use 'getModuleLoader()' instead");
+        return this.plugin.getPluginLoader();
     }
 
     @Override
     public @NotNull Server getServer() {
-        return this.server;
+        return this.plugin.getServer();
     }
 
     @Override
@@ -217,8 +218,8 @@ public class JavaModule implements Module {
         }
     }
 
-    final void init(JavaModuleLoader loader, Server server, PluginDescriptionFile description, File dataFolder, File file, ClassLoader classLoader) {
-        this.server = server;
+    final void init(JavaModuleLoader loader, Plugin plugin, PluginDescriptionFile description, File dataFolder, File file, ClassLoader classLoader) {
+        this.plugin = plugin;
         this.loader = loader;
         this.file = file;
         this.description = description;

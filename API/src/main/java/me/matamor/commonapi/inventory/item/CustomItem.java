@@ -1,6 +1,7 @@
 package me.matamor.commonapi.inventory.item;
 
 import me.matamor.commonapi.inventory.amount.Amount;
+import me.matamor.commonapi.nbt.NBTTag;
 import me.matamor.commonapi.utils.replacement.PlayerTextVariable;
 import me.matamor.commonapi.utils.skull.SkullData;
 import org.bukkit.*;
@@ -540,6 +541,52 @@ public interface CustomItem extends Cloneable, ConfigurationSerializable {
     void clearLocalVariables();
 
     /**
+     * Assigns NBTTag to a Key
+     * @param key the key
+     * @param nbtTag the NBTTag
+     */
+
+    void setNBTData(@NotNull String key, @NotNull NBTTag<?> nbtTag);
+
+    /**
+     * Checks if any NBTTag is assigned to a Key
+     * @param key the key
+     * @return the NBTTag
+     */
+
+    boolean hasNBTData(@NotNull String key);
+
+    /**
+     * Gets the NBTTag assigned to a Key
+     * @param key the key
+     * @return the NBTTag, may be null
+     */
+
+    @Nullable
+    NBTTag<?> getNBTData(@NotNull String key);
+
+    /**
+     * Sets the NBTTag content
+     * @param content the NBTTag content
+     */
+
+    void setNBTContent(@NotNull Map<String, NBTTag<?>> content);
+
+    /**
+     * Checks if there is any NBTTag
+     */
+
+    boolean hasNBTContent();
+
+    /**
+     * Gets the NBTTag content
+     * @return the content
+     */
+
+    @NotNull
+    Map<String, NBTTag<?>> getNBTContent();
+
+    /**
      * Creates a Builder of the CustomItem
      * @return the Builder of the CustomItem
      */
@@ -631,6 +678,10 @@ public interface CustomItem extends Cloneable, ConfigurationSerializable {
         CustomItemBuilder setItemFlags(ItemFlag... itemFlags);
 
         CustomItemBuilder setItemFlags(List<ItemFlag> itemFlags);
+
+        CustomItemBuilder setNBTData(@NotNull String key, @NotNull NBTTag<?> nbtTag);
+
+        CustomItemBuilder setNBTContent(@NotNull Map<String, NBTTag<?>> content);
 
         CustomItem build();
 

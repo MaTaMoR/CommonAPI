@@ -16,7 +16,7 @@ public class ModuleLogger extends Logger {
     public ModuleLogger(JavaModule context) {
         super(context.getClass().getCanonicalName(), null);
 
-        this.prefix = "[" + context.getDescription().getName() + "]";
+        this.prefix = "[" + context.getDescription().getName() + "] ";
 
         setParent(Bukkit.getServer().getLogger());
         setLevel(Level.ALL);

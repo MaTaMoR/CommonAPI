@@ -60,4 +60,20 @@ public class SimpleIdentifier implements Identifier {
     public String toString() {
         return "(" + this.id + ", " + this.name + ", " + this.uuid.toString() + ")";
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        } else if (getClass() == object.getClass()) {
+            return getId() == ((Identifier) object).getId();
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.id);
+    }
 }

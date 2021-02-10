@@ -19,4 +19,5 @@ public interface IdentifierDatabase extends SingleDatabaseManager<UUID, Identifi
     boolean updateName(int id, String name) throws SQLException;
 
     void updateNameAsync(int id, String name, Callback<Boolean> callback);
+
 }

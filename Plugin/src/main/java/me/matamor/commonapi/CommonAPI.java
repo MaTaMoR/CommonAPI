@@ -14,12 +14,7 @@ import me.matamor.commonapi.storage.data.SimpleDataManager;
 import me.matamor.commonapi.storage.database.settings.ConnectionSettingsManager;
 import me.matamor.commonapi.storage.entries.DataEntries;
 import me.matamor.commonapi.storage.entries.DataStorageManager;
-import me.matamor.commonapi.storage.identifier.IdentifierDatabase;
-import me.matamor.commonapi.storage.identifier.IdentifierManager;
-import me.matamor.commonapi.storage.identifier.SimpleIdentifierDatabase;
-import me.matamor.commonapi.storage.identifier.SimpleIdentifierManager;
-import me.matamor.commonapi.utils.Pair;
-import me.matamor.commonapi.utils.Reflections;
+import me.matamor.commonapi.storage.identifier.*;
 import me.matamor.commonapi.utils.StringUtils;
 import me.matamor.commonapi.utils.ULocation;
 import me.matamor.commonapi.utils.serializer.SerializationManager;
@@ -30,8 +25,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 
@@ -163,38 +156,15 @@ public class CommonAPI extends JavaPlugin implements DataHandler {
 
     private void initializeModules() {
         try {
-            this.moduleManager = new SimpleModuleManager(getServer());
+            this.moduleManager = new SimpleModuleManager(this);
             this.moduleManager.registerInterface(JavaModuleLoader.class);
 
             File folder = new File(getDataFolder(), "Modules");
             if (folder.exists()) {
                 Module[] loadedModules = this.moduleManager.loadModules(folder);
 
-                if (loadedModules.length > 0) {
-                    //This part is a try to replace the map into something that will use the Modules class loaders aswell
-                    Reflections.FieldAccessor<Map> fieldAccessor = Reflections.getField(getClassLoader().getClass(), "classes", Map.class);
-                    Map<String, Class<?>> newClasses = new ConcurrentHashMap<String, Class<?>>() {
-
-                        @Override
-                        public Class<?> get(Object key) {
-                            Class<?> clazz = super.get(key);
-
-                            if (clazz == null && key instanceof String) {
-                                clazz = getModuleManager().findClass((String) key);
-                            }
-
-                            return clazz;
-                        }
-                    };
-
-                    Map<?, ?> map = fieldAccessor.get(getClassLoader());
-                    map.entrySet().stream()
-                            .filter(e -> e.getKey() instanceof String && e.getValue() instanceof Class)
-                            .map(e -> new Pair<String, Class<?>>((String) e.getKey(), (Class<?>) e.getValue()))
-                            .forEach(e -> newClasses.put(e.getKey(), e.getValue()));
-
-                    fieldAccessor.set(getClassLoader(), newClasses);
-                }
+                //This basically modifies the PluginClassLoader so the Modules can find their own classes
+                this.moduleManager.inject(this);
 
                 getLogger().log(Level.INFO, "[ModuleManager] Modules loaded: " + StringUtils.toString(Module::getName, loadedModules));
 

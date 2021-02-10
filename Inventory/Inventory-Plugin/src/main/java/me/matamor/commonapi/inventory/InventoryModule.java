@@ -14,7 +14,7 @@ public class InventoryModule extends JavaModule {
     private static InventoryModule instance;
 
     @Getter
-    private NBTUtils entityController;
+    private NBTUtils nbtUtils;
 
     @Getter
     private InventoryConfig pluginConfig;
@@ -28,7 +28,7 @@ public class InventoryModule extends JavaModule {
     @Override
     public void onEnable() {
         if (!setupController()) {
-            throw new RuntimeException("Couldn't find a valid HologramEntity controller!");
+            throw new RuntimeException("Couldn't find a valid NBTUtils controller!");
         }
 
         instance = this;
@@ -49,9 +49,9 @@ public class InventoryModule extends JavaModule {
     private boolean setupController() {
         NMSClassLoader<NBTUtils> hologramController = new NMSClassLoader<>(this, "me.matamor.commonapi.nms.{version}.nbt.NBTTagUtils");
         if (hologramController.load()) {
-            this.entityController = hologramController.getValue();
+            this.nbtUtils = hologramController.getValue();
         }
 
-        return this.entityController != null;
+        return this.nbtUtils != null;
     }
 }

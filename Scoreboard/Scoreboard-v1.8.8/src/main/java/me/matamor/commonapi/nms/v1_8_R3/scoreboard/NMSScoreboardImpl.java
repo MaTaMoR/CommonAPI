@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.matamor.commonapi.scoreboard.nms.NMSObjective;
 import me.matamor.commonapi.scoreboard.nms.NMSScoreboard;
 import me.matamor.commonapi.scoreboard.nms.NMSTeam;
+import me.matamor.commonapi.scoreboard.nms.NMSViewable;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.jetbrains.annotations.NotNull;
@@ -93,7 +94,14 @@ public class NMSScoreboardImpl implements NMSScoreboard {
 
     @Override
     public void hide() {
-        hide(this.viewers);
+        for (NMSObjective objective : this.objectives) {
+            if (objective != null) {
+                objective.hide();
+            }
+        }
+
+        this.teams.values().forEach(NMSViewable::hide);
+        this.viewers.clear();
     }
 
     @Override

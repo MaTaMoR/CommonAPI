@@ -1,6 +1,7 @@
 package me.matamor.commonapi.scoreboard.board.lines;
 
 
+import lombok.Getter;
 import me.matamor.commonapi.scoreboard.board.BoardLine;
 import me.matamor.commonapi.utils.StringUtils;
 import me.matamor.commonapi.utils.replacement.PlayerVariables;
@@ -10,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class TextBoardLine implements BoardLine {
 
+    @Getter
     private final String text;
 
     public TextBoardLine(String text) {

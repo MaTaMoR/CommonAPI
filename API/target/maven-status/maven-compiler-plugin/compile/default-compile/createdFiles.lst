@@ -215,6 +215,7 @@ me\matamor\commonapi\nbt\defaults\NBTTagByte.class
 me\matamor\commonapi\nms\NMSController.class
 me\matamor\commonapi\utils\Players.class
 me\matamor\commonapi\particles\ParticleEffect$22.class
+me\matamor\commonapi\modules\java\SimpleModuleManager$1.class
 me\matamor\commonapi\scoreboard\nms\NMSScore.class
 me\matamor\commonapi\utils\ConfigUtils.class
 me\matamor\commonapi\events\ModuleEnableEvent.class

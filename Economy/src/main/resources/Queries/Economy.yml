@@ -11,10 +11,9 @@ Select:
   Notifications: 'SELECT name,date,amount FROM notifications WHERE id = ?;'
 Remove:
   Economy: 'DELETE FROM economy WHERE id = ?;'
+  EconomyEntry: 'DELETE FROM economy WHERE id = ? AND account = ?;'
+  NotificationEntry: 'DELETE FROM notifications WHERE id = ? AND date = ?;'
   Notifications: 'DELETE FROM notifications WHERE id = ?;'
-
-RemoveEconomyEntry: 'DELETE FROM economy WHERE id = ? AND account = ?;'
-RemoveNotificationEntry: 'DELETE FROM notifications WHERE id = ? AND date = ?;'
 
 AccountExists: 'SELECT * FROM economy WHERE id = ? AND account = ?;'
 Top: 'SELECT id,balance FROM economy WHERE account = ? ORDER BY balance DESC;'

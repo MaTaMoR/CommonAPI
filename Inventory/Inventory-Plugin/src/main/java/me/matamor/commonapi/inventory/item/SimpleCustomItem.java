@@ -2,10 +2,12 @@ package me.matamor.commonapi.inventory.item;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.matamor.commonapi.inventory.InventoryModule;
 import me.matamor.commonapi.inventory.amount.Amount;
 import me.matamor.commonapi.inventory.amount.AmountUtil;
 import me.matamor.commonapi.inventory.amount.SimpleAmount;
 import me.matamor.commonapi.inventory.enchantment.GlowEnchantment;
+import me.matamor.commonapi.nbt.NBTTag;
 import me.matamor.commonapi.nms.NMSVersion;
 import me.matamor.commonapi.utils.CastUtils;
 import me.matamor.commonapi.utils.ConfigUtils;
@@ -29,6 +31,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.*;
 import org.bukkit.potion.*;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -89,6 +92,8 @@ public class SimpleCustomItem implements CustomItem, Cloneable, ConfigurationSer
     private List<Pattern> bannerPatterns = new ArrayList<>();
 
     private List<ItemFlag> itemFlags = new ArrayList<>();
+
+    private Map<String, NBTTag<?>> nbtContent = new HashMap<>();
 
     public SimpleCustomItem(Material material) {
         this(material, new SimpleAmount(1), (short) 0);
@@ -644,6 +649,37 @@ public class SimpleCustomItem implements CustomItem, Cloneable, ConfigurationSer
         this.itemFlags.clear();
     }
 
+    @Override
+    public void setNBTData(@NotNull String key, @NotNull NBTTag<?> nbtTag) {
+        this.nbtContent.put(key, nbtTag);
+    }
+
+    @Override
+    public boolean hasNBTData(@NotNull String key) {
+        return this.nbtContent.containsKey(key);
+    }
+
+    @Override
+    public @Nullable NBTTag<?> getNBTData(@NotNull String key) {
+        return this.nbtContent.get(key);
+    }
+
+    @Override
+    public void setNBTContent(@NotNull Map<String, NBTTag<?>> content) {
+        this.nbtContent.clear();
+        this.nbtContent.putAll(content);
+    }
+
+    @Override
+    public boolean hasNBTContent() {
+        return this.nbtContent.size() > 0;
+    }
+
+    @Override
+    public @NotNull Map<String, NBTTag<?>> getNBTContent() {
+        return this.nbtContent;
+    }
+
     protected String calculateName(Player player) {
         if (hasName()) {
             String name = this.name;
@@ -774,6 +810,10 @@ public class SimpleCustomItem implements CustomItem, Cloneable, ConfigurationSer
 
             itemStack.setItemMeta(itemMeta);
 
+            if (hasNBTContent()) {
+                InventoryModule.getInstance().getNbtUtils().setContent(itemStack, this.nbtContent);
+            }
+
             if (hasSkullData() && itemMeta instanceof SkullMeta) {
                 this.skullOwner.apply(itemStack);
             }
@@ -854,6 +894,10 @@ public class SimpleCustomItem implements CustomItem, Cloneable, ConfigurationSer
 
         if (hasItemFlags()) {
             cloned.setItemFlags(getItemFlags());
+        }
+
+        if (hasNBTContent()) {
+            cloned.setNBTContent(getNBTContent());
         }
 
         return cloned;
@@ -1039,6 +1083,18 @@ public class SimpleCustomItem implements CustomItem, Cloneable, ConfigurationSer
         @Override
         public SimpleCustomItemBuilder setItemFlags(List<ItemFlag> itemFlags) {
             this.customItem.setItemFlags(itemFlags);
+            return this;
+        }
+
+        @Override
+        public CustomItemBuilder setNBTData(@NotNull String key, @NotNull NBTTag<?> nbtTag) {
+            this.customItem.setNBTData(key, nbtTag);
+            return this;
+        }
+
+        @Override
+        public CustomItemBuilder setNBTContent(@NotNull Map<String, NBTTag<?>> content) {
+            this.customItem.setNBTContent(content);
             return this;
         }
 
@@ -1675,6 +1731,11 @@ public class SimpleCustomItem implements CustomItem, Cloneable, ConfigurationSer
             for (Pattern pattern : bannerMeta.getPatterns()) {
                 customItem.addBannerPattern(pattern);
             }
+        }
+
+        Map<String, NBTTag<?>> content = InventoryModule.getInstance().getNbtUtils().getContent(itemStack);
+        if (content.size() > 0) {
+            customItem.setNBTContent(content);
         }
 
         return customItem;

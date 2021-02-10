@@ -39,20 +39,17 @@ import java.util.regex.Pattern;
  */
 public final class JavaModuleLoader implements ModuleLoader {
     
-    final Server server;
+    final Plugin parent;
+
     private final Pattern[] fileFilters = new Pattern[]{Pattern.compile("\\.jar$")};
     private final Map<String, Class<?>> classes = new ConcurrentHashMap<String, Class<?>>();
     private final List<ModuleClassLoader> loaders = new CopyOnWriteArrayList<>();
 
-    /**
-     * This class was not meant to be constructed explicitly
-     *
-     * @param instance the server instance
-     */
     @Deprecated
-    public JavaModuleLoader(@NotNull Server instance) {
-        Validate.notNull(instance, "Server cannot be null");
-        server = instance;
+    public JavaModuleLoader(@NotNull Plugin parent) {
+        Validate.notNull(parent, "Server cannot be null");
+
+        this.parent = parent;
     }
 
     @Override
@@ -74,7 +71,7 @@ public final class JavaModuleLoader implements ModuleLoader {
         if (dataFolder.equals(oldDataFolder)) {
             // They are equal -- nothing needs to be done!
         } else if (dataFolder.isDirectory() && oldDataFolder.isDirectory()) {
-            server.getLogger().warning(String.format(
+            this.parent.getLogger().warning(String.format(
                     "While loading %s (%s) found old-data folder: `%s' next to the new one `%s'",
                     description.getFullName(),
                     file,
@@ -85,7 +82,7 @@ public final class JavaModuleLoader implements ModuleLoader {
             if (!oldDataFolder.renameTo(dataFolder)) {
                 throw new InvalidModuleException("Unable to rename old data folder: `" + oldDataFolder + "' to: `" + dataFolder + "'");
             }
-            server.getLogger().log(Level.INFO, String.format(
+            this.parent.getLogger().log(Level.INFO, String.format(
                     "While loading %s (%s) renamed data folder: `%s' to `%s'",
                     description.getFullName(),
                     file,
@@ -104,7 +101,7 @@ public final class JavaModuleLoader implements ModuleLoader {
         }
 
         for (final String pluginName : description.getDepend()) {
-            Plugin current = server.getPluginManager().getPlugin(pluginName);
+            Plugin current = this.parent.getServer().getPluginManager().getPlugin(pluginName);
 
             if (current == null) {
                 throw new InvalidModuleException("Unknown dependency " + pluginName + ". Please download and install " + pluginName + " to run this plugin.");
@@ -113,7 +110,7 @@ public final class JavaModuleLoader implements ModuleLoader {
 
         if (NMSVersion.isGreaterEqualThan(NMSVersion.v1_13_R1)) {
             try {
-                server.getUnsafe().checkSupported(description);
+                this.parent.getServer().getUnsafe().checkSupported(description);
             } catch (InvalidPluginException e) {
                 throw new InvalidModuleException(e);
             }
@@ -121,7 +118,7 @@ public final class JavaModuleLoader implements ModuleLoader {
 
         final ModuleClassLoader loader;
         try {
-            loader = new ModuleClassLoader(this, getClass().getClassLoader(), description, dataFolder, file);
+            loader = new ModuleClassLoader(this, this.parent, description, dataFolder, file);
         } catch (IOException e) {
             throw new InvalidModuleException(e);
         }
@@ -228,7 +225,7 @@ public final class JavaModuleLoader implements ModuleLoader {
         Validate.notNull(plugin, "Plugin can not be null");
         Validate.notNull(listener, "Listener can not be null");
 
-        boolean useTimings = server.getPluginManager().useTimings();
+        boolean useTimings = this.parent.getServer().getPluginManager().useTimings();
         Map<Class<? extends Event>, Set<RegisteredListener>> ret = new HashMap<Class<? extends Event>, Set<RegisteredListener>>();
         Set<Method> methods;
         try {
@@ -263,7 +260,7 @@ public final class JavaModuleLoader implements ModuleLoader {
                 // This loop checks for extending deprecated events
                 if (clazz.getAnnotation(Deprecated.class) != null) {
                     Warning warning = clazz.getAnnotation(Warning.class);
-                    WarningState warningState = server.getWarningState();
+                    WarningState warningState = this.parent.getServer().getWarningState();
                     if (!warningState.printFor(warning)) {
                         break;
                     }
@@ -315,18 +312,18 @@ public final class JavaModuleLoader implements ModuleLoader {
 
             if (!loaders.contains(pluginLoader)) {
                 loaders.add(pluginLoader);
-                server.getLogger().log(Level.WARNING, "Enabled plugin with unregistered ModuleClassLoader " + plugin.getDescription().getFullName());
+                this.parent.getServer().getLogger().log(Level.WARNING, "Enabled plugin with unregistered ModuleClassLoader " + plugin.getDescription().getFullName());
             }
 
             try {
                 jPlugin.setEnabled(true);
             } catch (Throwable ex) {
-                server.getLogger().log(Level.SEVERE, "Error occurred while enabling " + plugin.getDescription().getFullName() + " (Is it up to date?)", ex);
+                this.parent.getServer().getLogger().log(Level.SEVERE, "Error occurred while enabling " + plugin.getDescription().getFullName() + " (Is it up to date?)", ex);
             }
 
             // Perhaps abort here, rather than continue going, but as it stands,
             // an abort is not possible the way it's currently written
-            server.getPluginManager().callEvent(new PluginEnableEvent(plugin));
+            this.parent.getServer().getPluginManager().callEvent(new PluginEnableEvent(plugin));
         }
     }
 
@@ -338,7 +335,7 @@ public final class JavaModuleLoader implements ModuleLoader {
             String message = String.format("Disabling %s", plugin.getDescription().getFullName());
             plugin.getLogger().info(message);
 
-            server.getPluginManager().callEvent(new PluginDisableEvent(plugin));
+            this.parent.getServer().getPluginManager().callEvent(new PluginDisableEvent(plugin));
 
             JavaModule jPlugin = (JavaModule) plugin;
             ClassLoader cloader = jPlugin.getClassLoader();
@@ -346,7 +343,7 @@ public final class JavaModuleLoader implements ModuleLoader {
             try {
                 jPlugin.setEnabled(false);
             } catch (Throwable ex) {
-                server.getLogger().log(Level.SEVERE, "Error occurred while disabling " + plugin.getDescription().getFullName() + " (Is it up to date?)", ex);
+                this.parent.getServer().getLogger().log(Level.SEVERE, "Error occurred while disabling " + plugin.getDescription().getFullName() + " (Is it up to date?)", ex);
             }
 
             if (cloader instanceof ModuleClassLoader) {

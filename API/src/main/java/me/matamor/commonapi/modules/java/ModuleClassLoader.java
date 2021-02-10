@@ -6,6 +6,7 @@ import me.matamor.commonapi.modules.java.JavaModule;
 import me.matamor.commonapi.modules.java.JavaModuleLoader;
 import me.matamor.commonapi.nms.NMSVersion;
 import org.apache.commons.lang.Validate;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -30,7 +31,8 @@ import java.util.jar.Manifest;
  * A ClassLoader for plugins, to allow shared classes across multiple plugins
  */
 final class ModuleClassLoader extends URLClassLoader {
-    
+
+    private final Plugin parent;
     private final JavaModuleLoader loader;
     private final Map<String, Class<?>> classes = new ConcurrentHashMap<>();
     private final PluginDescriptionFile description;
@@ -44,16 +46,15 @@ final class ModuleClassLoader extends URLClassLoader {
     private IllegalStateException pluginState;
 
     static {
-        System.out.println(
-        ClassLoader.registerAsParallelCapable()
-        );
+        ClassLoader.registerAsParallelCapable();
     }
 
-    ModuleClassLoader(@NotNull final JavaModuleLoader loader, @Nullable final ClassLoader parent, @NotNull final PluginDescriptionFile description, @NotNull final File dataFolder, @NotNull final File file) throws IOException, InvalidModuleException {
-        super(new URL[] {file.toURI().toURL()}, parent);
+    ModuleClassLoader(@NotNull final JavaModuleLoader loader, @NotNull final Plugin parent, @NotNull final PluginDescriptionFile description, @NotNull final File dataFolder, @NotNull final File file) throws IOException, InvalidModuleException {
+        super(new URL[] {file.toURI().toURL()}, parent.getClass().getClassLoader());
 
         Validate.notNull(loader, "Loader cannot be null");
 
+        this.parent = parent;
         this.loader = loader;
         this.description = description;
         this.dataFolder = dataFolder;
@@ -126,7 +127,7 @@ final class ModuleClassLoader extends URLClassLoader {
                     }
 
                     if (NMSVersion.isGreaterEqualThan(NMSVersion.v1_13_R1)) {
-                        classBytes = loader.server.getUnsafe().processClass(description, path, classBytes);
+                        classBytes = loader.parent.getServer().getUnsafe().processClass(description, path, classBytes);
                     }
 
                     int dot = name.lastIndexOf('.');
@@ -182,16 +183,16 @@ final class ModuleClassLoader extends URLClassLoader {
         return classes.keySet();
     }
 
-    synchronized void initialize(@NotNull JavaModule Module) {
-        Validate.notNull(Module, "Initializing plugin cannot be null");
-        Validate.isTrue(Module.getClass().getClassLoader() == this, "Cannot initialize plugin outside of this class loader");
+    synchronized void initialize(@NotNull JavaModule module) {
+        Validate.notNull(module, "Initializing plugin cannot be null");
+        Validate.isTrue(module.getClass().getClassLoader() == this, "Cannot initialize plugin outside of this class loader");
         if (this.plugin != null || this.pluginInit != null) {
             throw new IllegalArgumentException("Plugin already initialized!", pluginState);
         }
 
         pluginState = new IllegalStateException("Initial initialization");
-        this.pluginInit = Module;
+        this.pluginInit = module;
 
-        Module.init(loader, loader.server, description, dataFolder, file, this);
+        module.init(loader, loader.parent, description, dataFolder, file, this);
     }
 }

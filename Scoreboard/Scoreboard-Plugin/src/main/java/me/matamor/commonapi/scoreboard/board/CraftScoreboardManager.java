@@ -63,7 +63,10 @@ public class CraftScoreboardManager implements ScoreboardManager {
     @Override
     public void untrackBoard(Board board) {
         this.boards.remove(board);
-        this.updatingBoards.remove(board);
+
+        if (board instanceof UpdatingBoard) {
+            this.updatingBoards.remove(board);
+        }
     }
 
     @Override

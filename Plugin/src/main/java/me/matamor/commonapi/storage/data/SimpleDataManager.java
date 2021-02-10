@@ -85,23 +85,51 @@ public class SimpleDataManager implements DataManager {
     }
 
     @Override
+    public PlayerData getData(Identifier identifier) {
+        return getData(identifier.getUUID());
+    }
+
+    @Override
+    public PlayerData getData(int id) {
+        return this.entries.values().stream()
+                .filter(e -> e.getIdentifier().getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
     public PlayerData getData(UUID uuid) {
         return this.entries.get(uuid);
     }
 
     @Override
     public PlayerData getData(String name) {
-        return this.entries.values().stream().filter(e -> e.getIdentifier().getName().equals(name)).findFirst().orElse(null);
+        return this.entries.values().stream()
+                .filter(e -> e.getIdentifier().getName().equals(name))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public void unload(Identifier identifier) {
+        unload(getData(identifier));
+    }
+
+    @Override
+    public void unload(int id) {
+        unload(getData(id));
     }
 
     @Override
     public void unload(UUID uuid) {
-        unload(this.entries.get(uuid));
+        unload(getData(uuid));
     }
 
     @Override
     public void unload(PlayerData playerData) {
-        if (playerData == null) return;
+        if (playerData == null) {
+            return;
+        }
 
         this.entries.remove(playerData.getIdentifier().getUUID());
 
@@ -109,13 +137,25 @@ public class SimpleDataManager implements DataManager {
     }
 
     @Override
+    public void unloadAsync(Identifier identifier) {
+        unloadAsync(getData(identifier));
+    }
+
+    @Override
+    public void unloadAsync(int id) {
+        unloadAsync(getData(id));
+    }
+
+    @Override
     public void unloadAsync(UUID uuid) {
-        unloadAsync(this.entries.get(uuid));
+        unloadAsync(getData(uuid));
     }
 
     @Override
     public void unloadAsync(PlayerData playerData) {
-        if (playerData == null) return;
+        if (playerData == null) {
+            return;
+        }
 
         this.entries.remove(playerData.getIdentifier().getUUID());
 

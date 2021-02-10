@@ -118,7 +118,7 @@ public class SimpleEconomyEntry implements EconomyEntry {
     public void clearNotifications() {
         this.notifications.clear();
 
-        this.plugin.getDatabase().deleteNotifications(getIdentifier().getId());
+        this.plugin.getDatabase().deleteNotificationsAsync(getIdentifier().getId());
     }
 
     @Override

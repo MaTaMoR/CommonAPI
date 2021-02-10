@@ -1,4 +1,5 @@
 package me.matamor.commonapi.storage.data;
+
 import me.matamor.commonapi.storage.StorageException;
 import me.matamor.commonapi.storage.identifier.Identifier;
 import me.matamor.commonapi.utils.map.Callback;
@@ -18,13 +19,25 @@ public interface DataManager {
 
     void loadAll();
 
+    PlayerData getData(Identifier identifier);
+
+    PlayerData getData(int id);
+
     PlayerData getData(UUID uuid);
 
     PlayerData getData(String name);
 
+    void unload(Identifier identifier);
+
+    void unload(int id);
+
     void unload(UUID uuid);
 
     void unload(PlayerData playerData);
+
+    void unloadAsync(Identifier identifier);
+
+    void unloadAsync(int id);
 
     void unloadAsync(UUID uuid);
 

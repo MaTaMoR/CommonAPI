@@ -78,5 +78,4 @@ public class VersionUtils {
     public static boolean isVersionBetweenEqual(String reference, String lowest, String highest) {
         return isVersionGreaterEqual(reference, lowest) && isVersionLessEqual(reference, highest);
     }
-
 }
